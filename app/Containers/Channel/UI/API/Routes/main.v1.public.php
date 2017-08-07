@@ -53,3 +53,28 @@ $router->get('channels/{id}', [
     ],
 ])->where('id', '[0-9]+');
 
+/**
+ * @apiGroup           Channel
+ * @apiName            getChannelsList
+ *
+ * @api                {POST} /v1/channels Endpoint title here..
+ * @apiDescription     Endpoint description here..
+ *
+ * @apiVersion         1.0.0
+ * @apiPermission      none
+ *
+ * @apiParam           {String}  parameters here..
+ *
+ * @apiSuccessExample  {json}  Success-Response:
+ * HTTP/1.1 200 OK
+{
+// Insert the response of the request here...
+}
+ */
+
+$router->get('channels', [
+    'uses'  => 'Controller@getChannelsList',
+    'middleware' => [
+        'auth:api'
+    ],
+]);
