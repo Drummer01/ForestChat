@@ -22,6 +22,7 @@
 $router->post('channels/create', [
     'uses'  => 'Controller@createChannel',
     'middleware' => [
-      'auth:api',
+        'auth:api',
+        'can:create,'.\App\Containers\Channel\Models\Channel::class
     ],
 ]);

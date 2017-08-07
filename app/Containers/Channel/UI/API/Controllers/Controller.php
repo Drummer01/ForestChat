@@ -3,6 +3,7 @@
 namespace App\Containers\Channel\UI\API\Controllers;
 
 use App\Containers\Channel\Actions\CreateChannelAction;
+use App\Containers\Channel\Models\Channel;
 use App\Containers\Channel\UI\API\Requests\CreateChannelRequest;
 use App\Containers\Channel\UI\API\Transformers\ChannelTransformer;
 use App\Ship\Parents\Controllers\ApiController;

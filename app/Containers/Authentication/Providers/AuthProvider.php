@@ -3,6 +3,8 @@
 namespace App\Containers\Authentication\Providers;
 
 use Apiato\Core\Loaders\RoutesLoaderTrait;
+use App\Containers\Channel\Models\Channel;
+use App\Containers\Channel\Policies\ChannelPolicy;
 use App\Ship\Parents\Providers\AuthProvider as ParentAuthProvider;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
@@ -36,7 +38,7 @@ class AuthProvider extends ParentAuthProvider
      * @var array
      */
     protected $policies = [
-
+        Channel::class      => ChannelPolicy::class
     ];
 
     /**
