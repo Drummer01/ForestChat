@@ -16,10 +16,10 @@ class CreateChannelTable extends Migration
         Schema::create('channels', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 64);
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->unsignedInteger('creator_id')->index();
             $table->boolean('hidden')->default(false);
-            $table->string('image_url');
+            $table->string('image_url')->nullable();
             $table->timestamps();
 
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
