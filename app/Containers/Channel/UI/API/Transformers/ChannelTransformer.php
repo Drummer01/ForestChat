@@ -27,11 +27,13 @@ class ChannelTransformer extends Transformer
     {
         $response = [
 
-            'object' => 'Channel',
-            'id' => $entity->getHashedKey(),
-            'name' => $entity->name,
-            'created_at' => $entity->created_at,
-            'updated_at' => $entity->updated_at,
+            'object'        => 'Channel',
+            'id'            => $entity->getHashedKey(),
+            'name'          => $entity->name,
+            'has_password'  => $entity->hasPassword(),
+            'image_url'     => $entity->image_url,
+            'created_at'    => $entity->created_at,
+            'updated_at'    => $entity->updated_at,
 
 
         ];
