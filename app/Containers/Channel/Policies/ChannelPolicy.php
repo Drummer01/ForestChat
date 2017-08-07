@@ -9,10 +9,10 @@
 namespace App\Containers\Channel\Policies;
 
 
-use App\Containers\Channel\Data\Criterias\CreatedTodayCriteria;
 use App\Containers\Channel\Data\Criterias\UserCreatedChannelCriteria;
 use App\Containers\Channel\Data\Repositories\ChannelRepository;
 use App\Containers\User\Models\User;
+use App\Ship\Criterias\Eloquent\CreatedTodayCriteria;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\App;
 
