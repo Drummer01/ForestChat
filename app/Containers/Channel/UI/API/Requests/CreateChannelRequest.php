@@ -2,6 +2,7 @@
 
 namespace App\Containers\Channel\UI\API\Requests;
 
+use App\Containers\Channel\Models\Channel;
 use App\Ship\Parents\Requests\Request;
 
 /**
@@ -54,8 +55,6 @@ class CreateChannelRequest extends Request
      */
     public function authorize()
     {
-        return $this->check([
-            'hasAccess',
-        ]);
+        return $this->user()->can('create', Channel::class);
     }
 }

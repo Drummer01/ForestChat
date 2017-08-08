@@ -22,8 +22,7 @@
 $router->post('channels/create', [
     'uses'  => 'Controller@createChannel',
     'middleware' => [
-        'auth:api',
-        'can:create,'.\App\Containers\Channel\Models\Channel::class
+        'auth:api'
     ],
 ]);
 
@@ -57,7 +56,7 @@ $router->get('channels/{id}', [
  * @apiGroup           Channel
  * @apiName            getChannelsList
  *
- * @api                {POST} /v1/channels Endpoint title here..
+ * @api                {GET} /v1/channels Endpoint title here..
  * @apiDescription     Endpoint description here..
  *
  * @apiVersion         1.0.0
@@ -78,3 +77,56 @@ $router->get('channels', [
         'auth:api'
     ],
 ]);
+
+/**
+ * @apiGroup           Channel
+ * @apiName            getChannelMessageHistory
+ *
+ * @api                {GET} /v1/channels/1/history Endpoint title here..
+ * @apiDescription     Endpoint description here..
+ *
+ * @apiVersion         1.0.0
+ * @apiPermission      none
+ *
+ * @apiParam           {String}  parameters here..
+ *
+ * @apiSuccessExample  {json}  Success-Response:
+ * HTTP/1.1 200 OK
+{
+// Insert the response of the request here...
+}
+ */
+
+$router->get('channels', [
+    'uses'  => 'Controller@getChannelsList',
+    'middleware' => [
+        'auth:api'
+    ]
+]);
+
+/**
+ * @apiGroup           Channel
+ * @apiName            updateChannelAttrs
+ *
+ * @api                {GET} /v1/channels/1/history Endpoint title here..
+ * @apiDescription     Endpoint description here..
+ *
+ * @apiVersion         1.0.0
+ * @apiPermission      none
+ *
+ * @apiParam           {String}  parameters here..
+ *
+ * @apiSuccessExample  {json}  Success-Response:
+ * HTTP/1.1 200 OK
+{
+// Insert the response of the request here...
+}
+ */
+
+$router->put('channels/{id}', [
+    'uses'  => 'Controller@updateChannelAttrs',
+    'middleware' => [
+        'auth:api'
+    ]
+])->where('id', '[0-9]+');
+

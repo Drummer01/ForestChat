@@ -30,7 +30,6 @@ class Controller extends ApiController
     public function getChannel(GetChannelRequest $request)
     {
         $channel = $this->call(GetChannelAction::class, [$request]);
-        $this->authorize('view', $channel);
         return $this->transform($channel, new ChannelTransformer());
     }
 
