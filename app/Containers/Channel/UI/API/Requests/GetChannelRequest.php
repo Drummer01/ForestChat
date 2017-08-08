@@ -2,6 +2,7 @@
 
 namespace App\Containers\Channel\UI\API\Requests;
 
+use App\Containers\Channel\Models\Channel;
 use App\Ship\Parents\Requests\Request;
 
 /**
@@ -52,8 +53,7 @@ class GetChannelRequest extends Request
      */
     public function authorize()
     {
-        return $this->check([
-            'hasAccess',
-        ]);
+        $channel = Channel::find($this->id);
+        return $this->user()->can('view', $channel);
     }
 }
