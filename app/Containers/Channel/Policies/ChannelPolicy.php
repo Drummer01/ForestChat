@@ -12,6 +12,7 @@ namespace App\Containers\Channel\Policies;
 use App\Containers\Channel\Data\Criterias\UserCreatedChannelCriteria;
 use App\Containers\Channel\Data\Repositories\ChannelRepository;
 use App\Containers\Channel\Models\Channel;
+use App\Containers\Channel\Models\ChannelRole;
 use App\Containers\User\Models\User;
 use App\Ship\Criterias\Eloquent\CreatedTodayCriteria;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -24,6 +25,7 @@ class ChannelPolicy
     const CHANNEL_CREATION_LIMIT = 3;
 
     /**
+     * Limits channel creation per day
      * @param User $user
      * @return bool
      */
@@ -45,11 +47,38 @@ class ChannelPolicy
      */
     public function view(User $user, Channel $channel)
     {
-        if($channel->hidden === 1)
-        {
-            //TODO: Check whever user global or channel admin
-            return $channel->creator_id == $user->id;
-        }
-        return true;
+        return $channel->hidden == 1 ? $this->isOwnChannelOrHasAdminRole($user, $channel) : true;
+    }
+
+    /**
+     * Users
+     * @param User $user
+     * @param Channel $channel
+     * @return bool
+     */
+    public function update(User $user, Channel $channel)
+    {
+        return $this->isOwnChannelOrHasAdminRole($user, $channel);
+    }
+
+    /**
+     * @param User $user
+     * @param Channel $channel
+     * @return bool
+     */
+    public function delete(User $user, Channel $channel)
+    {
+        return $this->isOwnChannelOrHasAdminRole($user, $channel);
+    }
+    /**
+     * @param User $user
+     * @param Channel $channel
+     * @return bool
+     */
+    protected function isOwnChannelOrHasAdminRole(User $user, Channel $channel)
+    {
+        return $user->id === $channel->creator_id
+        || $user->hasRole('Admin')
+        || $user->hasChannelRole(ChannelRole::ADMINISTRATOR, $channel);
     }
 }

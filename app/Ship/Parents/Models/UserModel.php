@@ -5,6 +5,7 @@ namespace App\Ship\Parents\Models;
 use Apiato\Core\Abstracts\Models\UserModel as AbstractUserModel;
 use Apiato\Core\Traits\HashIdTrait;
 use App\Containers\Authorization\Traits\AuthorizationTrait;
+use App\Containers\User\Traits\HasChannelRoles;
 use App\Ship\Payment\Contracts\ChargeableInterface;
 use App\Ship\Payment\Traits\ChargeableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,4 +29,5 @@ abstract class UserModel extends AbstractUserModel implements ChargeableInterfac
     use HasApiTokens;
     use ChargeableTrait;
 
+    use HasChannelRoles;
 }
