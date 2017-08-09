@@ -3,10 +3,12 @@
 namespace App\Containers\Channel\UI\API\Controllers;
 
 use App\Containers\Channel\Actions\CreateChannelAction;
+use App\Containers\Channel\Actions\DeleteChannelAction;
 use App\Containers\Channel\Actions\GetChannelAction;
 use App\Containers\Channel\Actions\GetChannelListAction;
 use App\Containers\Channel\Actions\UpdateChannelDataAction;
 use App\Containers\Channel\UI\API\Requests\CreateChannelRequest;
+use App\Containers\Channel\UI\API\Requests\DeleteChannelRequest;
 use App\Containers\Channel\UI\API\Requests\GetChannelListRequest;
 use App\Containers\Channel\UI\API\Requests\GetChannelRequest;
 use App\Containers\Channel\UI\API\Requests\UpdateChannelDataRequest;
@@ -53,5 +55,14 @@ class Controller extends ApiController
     {
         $channel = $this->call(UpdateChannelDataAction::class, [$request]);
         return $this->transform($channel, new ChannelTransformer());
+    }
+
+    /**
+     * @param DeleteChannelRequest $request
+     * @return mixed
+     */
+    public function deleteChannel(DeleteChannelRequest $request)
+    {
+        $this->call(DeleteChannelAction::class, [$request]);
     }
 }
