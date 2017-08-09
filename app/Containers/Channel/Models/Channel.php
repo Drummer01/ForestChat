@@ -8,10 +8,14 @@ class Channel extends Model
 {
     protected $fillable = [
         'name',
-        'creator_id'
+        'creator_id',
+        'image_url',
+        'password'
     ];
 
-    protected $hidden = [];
+    protected $hidden = [
+        'password'
+    ];
 
     protected $casts = [];
 

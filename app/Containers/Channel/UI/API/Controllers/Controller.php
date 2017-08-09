@@ -5,9 +5,11 @@ namespace App\Containers\Channel\UI\API\Controllers;
 use App\Containers\Channel\Actions\CreateChannelAction;
 use App\Containers\Channel\Actions\GetChannelAction;
 use App\Containers\Channel\Actions\GetChannelListAction;
+use App\Containers\Channel\Actions\UpdateChannelDataAction;
 use App\Containers\Channel\UI\API\Requests\CreateChannelRequest;
 use App\Containers\Channel\UI\API\Requests\GetChannelListRequest;
 use App\Containers\Channel\UI\API\Requests\GetChannelRequest;
+use App\Containers\Channel\UI\API\Requests\UpdateChannelDataRequest;
 use App\Containers\Channel\UI\API\Transformers\ChannelTransformer;
 use App\Ship\Parents\Controllers\ApiController;
 
@@ -41,5 +43,15 @@ class Controller extends ApiController
     {
         $list = $this->call(GetChannelListAction::class, [$request]);
         return $this->transform($list, new ChannelTransformer());
+    }
+
+    /**
+     * @param UpdateChannelDataRequest $request
+     * @return mixed
+     */
+    public function updateChannelData(UpdateChannelDataRequest $request)
+    {
+        $channel = $this->call(UpdateChannelDataAction::class, [$request]);
+        return $this->transform($channel, new ChannelTransformer());
     }
 }

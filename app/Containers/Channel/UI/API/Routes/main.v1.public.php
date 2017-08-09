@@ -106,9 +106,9 @@ $router->get('channels', [
 
 /**
  * @apiGroup           Channel
- * @apiName            updateChannelAttrs
+ * @apiName            updateChannelData
  *
- * @api                {GET} /v1/channels/1/history Endpoint title here..
+ * @api                {PUT} /v1/channels/1 Endpoint title here..
  * @apiDescription     Endpoint description here..
  *
  * @apiVersion         1.0.0
@@ -124,9 +124,8 @@ $router->get('channels', [
  */
 
 $router->put('channels/{id}', [
-    'uses'  => 'Controller@updateChannelAttrs',
+    'uses'  => 'Controller@updateChannelData',
     'middleware' => [
         'auth:api'
     ]
 ])->where('id', '[0-9]+');
-
