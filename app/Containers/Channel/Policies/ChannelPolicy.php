@@ -70,6 +70,17 @@ class ChannelPolicy
     {
         return $this->isOwnChannelOrHasAdminRole($user, $channel);
     }
+
+    /**
+     * @param User $user
+     * @param Channel $channel
+     * @return bool
+     */
+    public function restore(User $user, Channel $channel)
+    {
+        return $this->isOwnChannelOrHasAdminRole($user, $channel);
+    }
+
     /**
      * @param User $user
      * @param Channel $channel
