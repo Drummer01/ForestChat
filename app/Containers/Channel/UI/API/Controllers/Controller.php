@@ -6,11 +6,13 @@ use App\Containers\Channel\Actions\CreateChannelAction;
 use App\Containers\Channel\Actions\DeleteChannelAction;
 use App\Containers\Channel\Actions\GetChannelAction;
 use App\Containers\Channel\Actions\GetChannelListAction;
+use App\Containers\Channel\Actions\RestoreChannelAction;
 use App\Containers\Channel\Actions\UpdateChannelDataAction;
 use App\Containers\Channel\UI\API\Requests\CreateChannelRequest;
 use App\Containers\Channel\UI\API\Requests\DeleteChannelRequest;
 use App\Containers\Channel\UI\API\Requests\GetChannelListRequest;
 use App\Containers\Channel\UI\API\Requests\GetChannelRequest;
+use App\Containers\Channel\UI\API\Requests\RestoreChannelRequest;
 use App\Containers\Channel\UI\API\Requests\UpdateChannelDataRequest;
 use App\Containers\Channel\UI\API\Transformers\ChannelTransformer;
 use App\Ship\Parents\Controllers\ApiController;
@@ -64,5 +66,26 @@ class Controller extends ApiController
     public function deleteChannel(DeleteChannelRequest $request)
     {
         $this->call(DeleteChannelAction::class, [$request]);
+        return $this->json([
+            'data' => [
+                'message' => 'Channel deleted successfully.',
+                'success' => true
+            ]
+        ]);
+    }
+
+    /**
+     * @param RestoreChannelRequest $request
+     * @return mixed
+     */
+    public function restoreChannel(RestoreChannelRequest $request)
+    {
+        $this->call(RestoreChannelAction::class, [$request]);
+        return $this->json([
+            'data' => [
+                'message' => 'Channel restored successfully.',
+                'success' => true
+            ]
+        ]);
     }
 }
