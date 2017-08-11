@@ -9,7 +9,7 @@
 namespace App\Containers\User\Traits;
 
 use App\Containers\Channel\Models\Channel;
-use App\Containers\ChannelRole\Models\ChannelRole;
+use App\Containers\ChannelAuthorization\Models\ChannelRole;
 
 trait HasChannelRoles
 {
@@ -18,8 +18,8 @@ trait HasChannelRoles
      */
     public function channelRoles()
     {
-        return $this->belongsToMany(ChannelRole::class, 'channel_users_roles', 'user_id', 'role_id')
-            ->withPivot( ['channel_id'] );
+        return $this->belongsToMany(ChannelRole::class, 'user_has_channel_role', 'user_id', 'role_id')
+            ->withPivot( 'channel_id' );
     }
 
     /**
@@ -32,5 +32,23 @@ trait HasChannelRoles
         return $this->channelRoles->contains(function ($value, $key) use ($roleId, $channel) {
             return $value->pivot->role_id == $roleId && $value->pivot->channel_id == $channel->id;
         });
+    }
+
+    /***
+     * @param array|ChannelRole ...$roles
+     * @return $this
+     */
+    public function assignChannelRole(Channel $channel, ...$roles)
+    {
+        $roles = collect($roles)
+            ->flatten()
+            ->map(function ($role) {
+                return $role->id;
+            })
+            ->all();
+
+        $this->channelRoles()->attach($roles, ['channel_id' => $channel->id]);
+
+        return $this;
     }
 }

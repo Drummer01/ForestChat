@@ -13,6 +13,7 @@ use App\Containers\Channel\Data\Criterias\UserCreatedChannelCriteria;
 use App\Containers\Channel\Data\Repositories\ChannelRepository;
 use App\Containers\Channel\Models\Channel;
 use App\Containers\Channel\Models\ChannelRole;
+use App\Containers\Channel\Traits\ChannelOwning;
 use App\Containers\User\Models\User;
 use App\Ship\Criterias\Eloquent\CreatedTodayCriteria;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\App;
 
 class ChannelPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, ChannelOwning;
 
     const CHANNEL_CREATION_LIMIT = 3;
 
@@ -79,17 +80,5 @@ class ChannelPolicy
     public function restore(User $user, Channel $channel)
     {
         return $this->isOwnChannelOrHasAdminRole($user, $channel);
-    }
-
-    /**
-     * @param User $user
-     * @param Channel $channel
-     * @return bool
-     */
-    protected function isOwnChannelOrHasAdminRole(User $user, Channel $channel)
-    {
-        return $user->id === $channel->creator_id
-        || $user->hasRole('Admin')
-        || $user->hasChannelRole(ChannelRole::ADMINISTRATOR, $channel);
     }
 }

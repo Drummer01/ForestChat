@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Containers\Channel\Data\Repositories;
+namespace App\Containers\ChannelAuthorization\Data\Repositories;
 
 use App\Ship\Parents\Repositories\Repository;
 
@@ -9,6 +9,9 @@ use App\Ship\Parents\Repositories\Repository;
  */
 class ChannelRoleRepository extends Repository
 {
+
+    protected $container = 'ChannelAuthorization';
+
     /**
      * @var array
      */

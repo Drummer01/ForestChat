@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Containers\ChannelRole\Models;
+namespace App\Containers\ChannelAuthorization\Models;
 
 use App\Ship\Parents\Models\Model;
 
