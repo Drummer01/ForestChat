@@ -9,7 +9,7 @@ class ChannelRole extends Model
     const MODERATOR = 1;
     const ADMINISTRATOR = 2;
 
-    protected $table = 'users_roles';
+    protected $table = 'channel_roles';
 
     protected $fillable = [];
 
