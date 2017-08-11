@@ -17,9 +17,6 @@ class UpdateChannelDataTask extends Task
     public function run(array $data, $id)
     {
         try {
-            if(isset($data['password'])) {
-                $data['password'] = Hash::make($data['password']);
-            }
             return App::make(ChannelRepository::class)->update($data, $id);
         } catch (\Exception $e) {
             throw (new FailedUpdateChannelException())->debug($e);
