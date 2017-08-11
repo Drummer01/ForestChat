@@ -1,5 +1,5 @@
 <?php
-
+//TODO: rename "channels" route without "s"
 /**
  * @apiGroup           Channel
  * @apiName            createChannel

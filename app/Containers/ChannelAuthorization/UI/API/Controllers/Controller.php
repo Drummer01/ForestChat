@@ -3,8 +3,11 @@
 namespace App\Containers\ChannelAuthorization\UI\API\Controllers;
 
 use App\Containers\ChannelAuthorization\Actions\AssignUserToChannelRoleAction;
+use App\Containers\ChannelAuthorization\Actions\RevokeUserFromChannelRoleAction;
 use App\Containers\ChannelAuthorization\Models\ChannelRole;
+use App\Containers\ChannelAuthorization\Tasks\RevokeUserFromChannelRoleTask;
 use App\Containers\ChannelAuthorization\UI\API\Requests\AssignUserToChannelRoleRequest;
+use App\Containers\ChannelAuthorization\UI\API\Requests\RevokeUserFromChannelRoleRequest;
 use App\Containers\ChannelAuthorization\UI\API\Transformers\ChannelRoleTransformer;
 use App\Ship\Parents\Controllers\ApiController;
 
@@ -18,6 +21,12 @@ class Controller extends ApiController
     {
         //TODO: Authrorize
         $roles = $this->call(AssignUserToChannelRoleAction::class, [$request]);
+        return $this->transform($roles, ChannelRoleTransformer::class);
+    }
+
+    public function revokeUserFromChannelRole(RevokeUserFromChannelRoleRequest $request)
+    {
+        $roles = $this->call(RevokeUserFromChannelRoleAction::class, [$request]);
         return $this->transform($roles, ChannelRoleTransformer::class);
     }
 }

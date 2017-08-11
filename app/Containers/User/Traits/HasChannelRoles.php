@@ -51,4 +51,15 @@ trait HasChannelRoles
 
         return $this;
     }
+
+    /**
+     * @param Channel $channel
+     * @param $roleId
+     * @return $this
+     */
+    public function removeChannelRole(Channel $channel, $roleId)
+    {
+        $this->channelRoles()->detach($roleId);
+        return $this;
+    }
 }
