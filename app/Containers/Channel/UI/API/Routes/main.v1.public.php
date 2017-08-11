@@ -1,5 +1,5 @@
 <?php
-//TODO: rename "channels" route without "s"
+
 /**
  * @apiGroup           Channel
  * @apiName            createChannel
@@ -19,7 +19,7 @@
 }
  */
 
-$router->post('channels/create', [
+$router->post('channel/create', [
     'uses'  => 'Controller@createChannel',
     'middleware' => [
         'auth:api'
@@ -45,7 +45,7 @@ $router->post('channels/create', [
 }
  */
 
-$router->get('channels/{id}', [
+$router->get('channel/{id}', [
     'uses'  => 'Controller@getChannel',
     'middleware' => [
         'auth:api'
@@ -97,7 +97,7 @@ $router->get('channels', [
 }
  */
 
-$router->get('channels', [
+$router->get('channel', [
     'uses'  => 'Controller@getChannelsList',
     'middleware' => [
         'auth:api'
@@ -123,7 +123,7 @@ $router->get('channels', [
 }
  */
 
-$router->put('channels/{id}', [
+$router->put('channel/{id}', [
     'uses'  => 'Controller@updateChannelData',
     'middleware' => [
         'auth:api'
@@ -149,7 +149,7 @@ $router->put('channels/{id}', [
 }
  */
 
-$router->delete('channels/{id}', [
+$router->delete('channel/{id}', [
     'uses'  => 'Controller@deleteChannel',
     'middleware' => [
         'auth:api'
@@ -176,7 +176,7 @@ $router->delete('channels/{id}', [
 }
  */
 
-$router->put('channels/{id}/restore', [
+$router->put('channel/{id}/restore', [
     'uses'  => 'Controller@restoreChannel',
     'middleware' => [
         'auth:api'
