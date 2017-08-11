@@ -9,7 +9,7 @@
 namespace App\Containers\User\Traits;
 
 use App\Containers\Channel\Models\Channel;
-use App\Containers\Channel\Models\ChannelRole;
+use App\Containers\ChannelRole\Models\ChannelRole;
 
 trait HasChannelRoles
 {

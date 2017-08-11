@@ -9,8 +9,6 @@ use App\Ship\Parents\Repositories\Repository;
  */
 class ChannelRoleRepository extends Repository
 {
-    protected $container = 'Channel';
-
     /**
      * @var array
      */
