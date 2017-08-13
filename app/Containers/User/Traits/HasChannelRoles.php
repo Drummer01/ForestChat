@@ -10,6 +10,7 @@ namespace App\Containers\User\Traits;
 
 use App\Containers\Channel\Models\Channel;
 use App\Containers\ChannelAuthorization\Models\ChannelRole;
+use Illuminate\Support\Collection;
 
 trait HasChannelRoles
 {
@@ -18,23 +19,41 @@ trait HasChannelRoles
      */
     public function channelRoles()
     {
-        return $this->belongsToMany(ChannelRole::class, 'user_has_channel_role', 'user_id', 'role_id')
+        return $this->belongsToMany(ChannelRole::class, 'user_has_channel_role', 'user_id', 'channel_role_id')
             ->withPivot( 'channel_id' );
     }
 
+    public function channelRolesForChannel(Channel $channel)
+    {
+        return $this->channelRoles()->where('user_has_channel_role.channel_id', $channel->id);
+    }
+
     /**
-     * @param $roleId
+     * @param $roles array|ChannelRole|Collection
      * @param Channel $channel
      * @return bool
      */
-    public function hasChannelRole($roleId, Channel $channel)
+    public function hasChannelRole($roles, Channel $channel)
     {
-        return $this->channelRoles->contains(function ($value, $key) use ($roleId, $channel) {
-            return $value->pivot->role_id == $roleId && $value->pivot->channel_id == $channel->id;
-        });
+        if($roles instanceof ChannelRole) {
+            return $this->hasSingleChannelRole($roles->id, $channel);
+        }
+
+        if(is_array($roles)) {
+            foreach ($roles as $role) {
+                if($this->hasChannelRole($role, $channel)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return false;
     }
 
     /***
+     * @param Channel $channel
      * @param array|ChannelRole ...$roles
      * @return $this
      */
@@ -59,7 +78,12 @@ trait HasChannelRoles
      */
     public function removeChannelRole(Channel $channel, $roleId)
     {
-        $this->channelRoles()->detach($roleId);
+        $this->channelRolesForChannel($channel)->detach($roleId);
         return $this;
+    }
+
+    private function hasSingleChannelRole($roleId, Channel $channel)
+    {
+        return $this->channelRolesForChannel($channel)->contains('role_id', $roleId);
     }
 }
