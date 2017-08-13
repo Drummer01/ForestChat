@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersRolesTable extends Migration
+class CreateChannelRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -21,7 +21,6 @@ class CreateUsersRolesTable extends Migration
             $table->unsignedInteger('channel_id')->index()->nullable();
             $table->string('custom')->default(true);
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('channel_id')->references('id')->on('channels')->onDelete('cascade');
         });
@@ -34,6 +33,6 @@ class CreateUsersRolesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('users_roles');
+        Schema::drop('channel_roles');
     }
 }

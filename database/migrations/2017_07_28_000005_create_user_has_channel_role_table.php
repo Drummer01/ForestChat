@@ -33,6 +33,6 @@ class CreateUserHasChannelRoleTable extends Migration
      */
     public function down()
     {
-        Schema::drop('channel_users_roles');
+        Schema::drop('user_has_channel_role');
     }
 }
