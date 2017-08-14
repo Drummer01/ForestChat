@@ -10,7 +10,7 @@ namespace App\Containers\Channel\Traits;
 
 
 use App\Containers\Channel\Models\Channel;
-use App\Containers\Channel\Models\ChannelRole;
+use App\Containers\ChannelAuthorization\Models\ChannelRole;
 use App\Containers\User\Models\User;
 
 trait ChannelOwning
@@ -24,6 +24,6 @@ trait ChannelOwning
     {
         return $user->id === $channel->creator_id
             || $user->hasRole('Admin')
-            || $user->hasChannelRole(ChannelRole::ADMINISTRATOR, $channel);
+            || $user->withChannel($channel)->hasChannelRole(ChannelRole::ADMINISTRATOR);
     }
 }

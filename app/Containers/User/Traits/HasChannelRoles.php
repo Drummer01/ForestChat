@@ -14,34 +14,52 @@ use Illuminate\Support\Collection;
 
 trait HasChannelRoles
 {
+
+    /**
+     * @var Channel
+     */
+    private $channel;
+
+    /**
+     * @param Channel $channel
+     * @return $this
+     */
+    public function withChannel(Channel $channel)
+    {
+        $this->channel = $channel;
+        return $this;
+    }
+
     /**
      * @return mixed
      */
     public function channelRoles()
     {
-        return $this->belongsToMany(ChannelRole::class, 'user_has_channel_role', 'user_id', 'channel_role_id')
+        $model = $this->belongsToMany(ChannelRole::class, 'user_has_channel_role', 'user_id', 'channel_role_id')
             ->withPivot( 'channel_id' );
-    }
-
-    public function channelRolesForChannel(Channel $channel)
-    {
-        return $this->channelRoles()->where('user_has_channel_role.channel_id', $channel->id);
+        if($this->channel) {
+            return $model->wherePivot('channel_id', $this->channel->id);
+        }
+        return $model;
     }
 
     /**
-     * @param $roles array|ChannelRole|Collection
-     * @param Channel $channel
+     * @param $roles int|array|ChannelRole|Collection
      * @return bool
      */
-    public function hasChannelRole($roles, Channel $channel)
+    public function hasChannelRole($roles)
     {
+        if(is_numeric($roles)) {
+            return $this->hasSingleChannelRole($roles);
+        }
+
         if($roles instanceof ChannelRole) {
-            return $this->hasSingleChannelRole($roles->id, $channel);
+            return $this->hasSingleChannelRole($roles->id);
         }
 
         if(is_array($roles)) {
             foreach ($roles as $role) {
-                if($this->hasChannelRole($role, $channel)) {
+                if($this->hasChannelRole($role)) {
                     return true;
                 }
             }
@@ -53,11 +71,10 @@ trait HasChannelRoles
     }
 
     /***
-     * @param Channel $channel
      * @param array|ChannelRole ...$roles
      * @return $this
      */
-    public function assignChannelRole(Channel $channel, ...$roles)
+    public function assignChannelRole(...$roles)
     {
         $roles = collect($roles)
             ->flatten()
@@ -66,24 +83,27 @@ trait HasChannelRoles
             })
             ->all();
 
-        $this->channelRoles()->attach($roles, ['channel_id' => $channel->id]);
+        $this->channelRoles()->attach($roles, ['channel_id' => $this->channel->id]);
 
         return $this;
     }
 
     /**
-     * @param Channel $channel
      * @param $roleId
      * @return $this
      */
-    public function removeChannelRole(Channel $channel, $roleId)
+    public function removeChannelRole($roleId)
     {
-        $this->channelRolesForChannel($channel)->detach($roleId);
+        $this->channelRoles()->detach($roleId);
         return $this;
     }
 
-    private function hasSingleChannelRole($roleId, Channel $channel)
+    /**
+     * @param $roleId
+     * @return mixed
+     */
+    private function hasSingleChannelRole($roleId)
     {
-        return $this->channelRolesForChannel($channel)->contains('role_id', $roleId);
+        return $this->channelRoles()->contains('role_id', $roleId);
     }
 }

@@ -16,9 +16,10 @@ class RevokeUserFromChannelRoleTask extends Task
      */
     public function run(User $user, Channel $channel, ...$roleIds)
     {
+        $user->withChannel($channel);
         foreach ($roleIds as $roleId) {
-            $user->removeChannelRole($channel, $roleId);
+            $user->removeChannelRole($roleId);
         }
-        return $user->channelRolesForChannel($channel)->get();
+        return $user->channelRoles;
     }
 }
