@@ -14,7 +14,8 @@ class ChannelRole extends Model
     protected $fillable = [
         'name',
         'display_name',
-        'description'
+        'description',
+        'channel_id'
     ];
 
     protected $hidden = [
