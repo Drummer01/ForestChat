@@ -11,9 +11,15 @@ class ChannelRole extends Model
 
     protected $table = 'channel_roles';
 
-    protected $fillable = [];
+    protected $fillable = [
+        'name',
+        'display_name',
+        'description'
+    ];
 
-    protected $hidden = [];
+    protected $hidden = [
+        'custom'
+    ];
 
     protected $casts = [];
 
