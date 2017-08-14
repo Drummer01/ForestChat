@@ -17,6 +17,7 @@ class DeleteChannelRoleRequest extends Request
     protected $access = [
         'permissions' => '',
         'roles'       => '',
+        'channel_roles' => 'administrator'
     ];
 
     /**
@@ -35,7 +36,8 @@ class DeleteChannelRoleRequest extends Request
      * @var  array
      */
     protected $urlParameters = [
-        //'id',
+        'id',
+        'role_id'
     ];
 
     /**
@@ -44,8 +46,8 @@ class DeleteChannelRoleRequest extends Request
     public function rules()
     {
         return [
-            // put your rules here
-            // 'name' => 'required|max:255'
+            'id' => 'required|integer|exists:channels,id',
+            'role_id' => 'required|integer|exists:channel_roles,id'
         ];
     }
 
