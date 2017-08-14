@@ -2,6 +2,7 @@
 
 namespace App\Containers\ChannelAuthorization\Actions;
 
+use App\Containers\Channel\Tasks\FindChannelByIdTask;
 use App\Containers\ChannelAuthorization\Tasks\DeleteChannelRoleTask;
 use App\Containers\ChannelAuthorization\Tasks\GetChannelRoleTask;
 use App\Ship\Parents\Actions\Action;
@@ -16,7 +17,9 @@ class DeleteChannelRoleAction extends Action
      */
     public function run(Request $request)
     {
-        $role = $this->call(GetChannelRoleTask::class, [$request->role_id]);
+        $channel = $this->call(FindChannelByIdTask::class, [$request->id]);
+
+        $role = $this->call(GetChannelRoleTask::class, [$channel, $request->role_id]);
         $this->call(DeleteChannelRoleTask::class, [$role]);
 
         return $role;

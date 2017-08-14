@@ -27,7 +27,7 @@ class AssignUserToChannelRoleAction extends Action
         }
 
         foreach ($rolesIds as $roleId) {
-            $roles[] = $this->call(GetChannelRoleTask::class, [$roleId]);
+            $roles[] = $this->call(GetChannelRoleTask::class, [$channel, $roleId]);
         }
 
         return $this->call(AssignUserToChannelRoleTask::class, [$user, $channel, $roles]);
