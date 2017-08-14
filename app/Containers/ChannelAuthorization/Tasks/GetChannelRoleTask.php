@@ -10,6 +10,6 @@ class GetChannelRoleTask extends Task
 {
     public function run($roleId)
     {
-        return App::make(ChannelRoleRepository::class)->findWhere(['id' => $roleId]);
+        return App::make(ChannelRoleRepository::class)->findWhere(['id' => $roleId])->first();
     }
 }
