@@ -18,10 +18,11 @@ class CreateChannelRolesTable extends Migration
             $table->string('name');
             $table->string('display_name');
             $table->string('description')->nullable();
-            $table->unsignedInteger('channel_id')->index()->nullable();
+            $table->unsignedInteger('channel_id')->index()->default(0);
             $table->string('custom')->default(true);
             $table->timestamps();
 
+            $table->primary(['id', 'name', 'channel_id']);
             $table->foreign('channel_id')->references('id')->on('channels')->onDelete('cascade');
         });
     }
