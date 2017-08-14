@@ -5,11 +5,13 @@ namespace App\Containers\ChannelAuthorization\UI\API\Controllers;
 use App\Containers\ChannelAuthorization\Actions\AssignUserToChannelRoleAction;
 use App\Containers\ChannelAuthorization\Actions\CreateChannelRoleAction;
 use App\Containers\ChannelAuthorization\Actions\DeleteChannelRoleAction;
+use App\Containers\ChannelAuthorization\Actions\ListAllChannelRolesAction;
 use App\Containers\ChannelAuthorization\Actions\RevokeUserFromChannelRoleAction;
 use App\Containers\ChannelAuthorization\Models\ChannelRole;
 use App\Containers\ChannelAuthorization\UI\API\Requests\AssignUserToChannelRoleRequest;
 use App\Containers\ChannelAuthorization\UI\API\Requests\CreateChannelRoleRequest;
 use App\Containers\ChannelAuthorization\UI\API\Requests\DeleteChannelRoleRequest;
+use App\Containers\ChannelAuthorization\UI\API\Requests\ListAllChannelRolesRequest;
 use App\Containers\ChannelAuthorization\UI\API\Requests\RevokeUserFromChannelRoleRequest;
 use App\Containers\ChannelAuthorization\UI\API\Transformers\ChannelRoleTransformer;
 use App\Ship\Parents\Controllers\ApiController;
@@ -55,5 +57,16 @@ class Controller extends ApiController
         return $this->accepted([
             'message' => 'Channel Role (' . $role->getHashedKey() . ') Deleted Successfully.'
         ]);
+    }
+
+    /**
+     * @param ListAllChannelRolesRequest $request
+     *
+     * @return mixed
+     */
+    public function listAllChannelRoles(ListAllChannelRolesRequest $request)
+    {
+        $roles = $this->call(ListAllChannelRolesAction::class, [$request]);
+        return $this->transform($roles, ChannelRoleTransformer::class);
     }
 }

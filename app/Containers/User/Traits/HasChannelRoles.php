@@ -24,7 +24,7 @@ trait HasChannelRoles
      * @param Channel $channel
      * @return $this
      */
-    public function withChannel(Channel $channel)
+    public function withChannel($channel)
     {
         $this->channel = $channel;
         return $this;
