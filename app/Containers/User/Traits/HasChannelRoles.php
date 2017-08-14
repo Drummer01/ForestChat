@@ -44,17 +44,21 @@ trait HasChannelRoles
     }
 
     /**
-     * @param $roles int|array|ChannelRole|Collection
+     * @param $roles int|string|array|ChannelRole|Collection
      * @return bool
      */
     public function hasChannelRole($roles)
     {
         if(is_numeric($roles)) {
-            return $this->hasSingleChannelRole($roles);
+            return $this->channelRoles->contains('id', $roles);
+        }
+
+        if(is_string($roles)) {
+            return $this->channelRoles->contains('name', $roles);
         }
 
         if($roles instanceof ChannelRole) {
-            return $this->hasSingleChannelRole($roles->id);
+            return $this->channelRoles->contains($roles->id);
         }
 
         if(is_array($roles)) {
@@ -96,14 +100,5 @@ trait HasChannelRoles
     {
         $this->channelRoles()->detach($roleId);
         return $this;
-    }
-
-    /**
-     * @param $roleId
-     * @return mixed
-     */
-    private function hasSingleChannelRole($roleId)
-    {
-        return $this->channelRoles()->contains('role_id', $roleId);
     }
 }
