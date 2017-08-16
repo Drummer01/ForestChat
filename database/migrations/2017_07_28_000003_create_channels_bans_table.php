@@ -13,7 +13,7 @@ class CreateChannelsBansTable extends Migration
      */
     public function up()
     {
-        Schema::create('channels_bans', function (Blueprint $table) {
+        Schema::create('channel_bans', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('channel_id')->unsigned()->index();
@@ -24,6 +24,7 @@ class CreateChannelsBansTable extends Migration
             $table->integer('expire');
             $table->boolean('active')->default(true);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('channel_id')
                 ->references('id')
