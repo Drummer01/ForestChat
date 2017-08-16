@@ -1,25 +1,23 @@
 <?php
 
-namespace App\Containers\Authentication\UI\API\Requests;
+namespace App\Containers\Administration\UI\API\Requests;
 
 use App\Ship\Parents\Requests\Request;
 
 /**
- * Class LoginRequest.
- *
- * @author Mahmoud Zalt <mahmoud@zalt.me>
+ * Class BanUserRequest.
  */
-class LoginRequest extends Request
+class BanUserRequest extends Request
 {
-
     /**
      * Define which Roles and/or Permissions has access to this request.
      *
      * @var  array
      */
     protected $access = [
-        'permissions' => null,
-        'roles' => null,
+        'permissions' => '',
+        'roles'       => '',
+        'channel_roles' => 'administrator'
     ];
 
     /**
@@ -28,39 +26,39 @@ class LoginRequest extends Request
      * @var  array
      */
     protected $decode = [
-
+        // 'id',
     ];
 
     /**
-     * Defining the URL parameters (`/stores/999/items`) allows applying
+     * Defining the URL parameters (e.g, `/user/{id}`) allows applying
      * validation rules on them and allows accessing them like request data.
      *
      * @var  array
      */
     protected $urlParameters = [
-
+        'id',
     ];
 
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
+     * @return  array
      */
     public function rules()
     {
         return [
-            'name'     => 'required|min:4|max:40',
-            'password' => 'required|min:3|max:30',
+            'id' => 'required|integer|exists:channels,id',
+            'user_id' => 'required|integer|exists:users,id',
+            'reason'   => 'min:3|max:160',
+            'expire'   => 'integer'
         ];
     }
 
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
+     * @return  bool
      */
     public function authorize()
     {
-        return true;
+        return $this->check([
+            'hasAccess',
+        ]);
     }
 }
