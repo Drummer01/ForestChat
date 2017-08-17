@@ -2,7 +2,9 @@
 
 namespace App\Containers\User\UI\API\Transformers;
 
+use App\Containers\Administration\UI\API\Transformers\BanTransformer;
 use App\Containers\Authorization\UI\API\Transformers\RoleTransformer;
+use App\Containers\Channel\UI\API\Transformers\ChannelTransformer;
 use App\Containers\User\Models\User;
 use App\Ship\Parents\Transformers\Transformer;
 
@@ -19,6 +21,8 @@ class UserTransformer extends Transformer
      */
     protected $availableIncludes = [
         'roles',
+        'bans',
+        'channels'
     ];
 
     /**
@@ -58,6 +62,16 @@ class UserTransformer extends Transformer
     public function includeRoles(User $user)
     {
         return $this->collection($user->roles, new RoleTransformer());
+    }
+
+    public function includeBans(User $user)
+    {
+        return $this->collection($user->bans, new BanTransformer());
+    }
+
+    public function includeChannels(User $user)
+    {
+        return $this->collection($user->channels, new ChannelTransformer());
     }
 
 }

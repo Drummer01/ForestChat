@@ -2,7 +2,7 @@
 
 namespace App\Containers\User\Models;
 
-use App\Containers\Stripe\Models\StripeAccount;
+use App\Containers\Channel\Models\Channel;
 use App\Ship\Parents\Models\UserModel;
 
 /**
@@ -63,5 +63,10 @@ class User extends UserModel
     public function findForPassport($username)
     {
         return $this->where('name', $username)->first();
+    }
+
+    public function channels()
+    {
+        return $this->hasMany(Channel::class, 'creator_id');
     }
 }
