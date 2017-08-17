@@ -6,9 +6,12 @@ use App\Containers\Channel\Models\Channel;
 use App\Containers\User\Models\User;
 use App\Ship\Parents\Models\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ban extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'channel_bans';
 
     protected $fillable = [
@@ -26,6 +29,7 @@ class Ban extends Model
     protected $dates = [
         'created_at',
         'updated_at',
+        'deleted_at'
     ];
 
     /**

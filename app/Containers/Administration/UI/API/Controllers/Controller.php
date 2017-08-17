@@ -3,15 +3,22 @@
 namespace App\Containers\Administration\UI\API\Controllers;
 
 use App\Containers\Administration\Actions\BanUserAction;
+use App\Containers\Administration\Actions\DeleteBanAction;
 use App\Containers\Administration\Actions\GetBanAction;
 use App\Containers\Administration\Actions\ListChannelBansAction;
 use App\Containers\Administration\UI\API\Requests\BanUserRequest;
+use App\Containers\Administration\UI\API\Requests\DeleteBanRequest;
 use App\Containers\Administration\UI\API\Requests\GetBanRequest;
 use App\Containers\Administration\UI\API\Requests\ListChannelBansRequest;
 use App\Containers\Administration\UI\API\Transformers\BanTransformer;
 use App\Containers\User\Actions\GetAuthenticatedUserAction;
 use App\Ship\Parents\Controllers\ApiController;
 
+/**
+ * Class Controller
+ *
+ * @author Andriy Butnar <xpaand4@gmail.com>
+ */
 class Controller extends ApiController
 {
     /**
@@ -47,5 +54,14 @@ class Controller extends ApiController
         $list = $this->call(ListChannelBansAction::class, [$request]);
 
         return $this->transform($list, BanTransformer::class);
+    }
+
+    public function deleteBan(DeleteBanRequest $request)
+    {
+        $ban = $this->call(DeleteBanAction::class, [$request]);
+
+        return $this->accepted([
+            'message' => 'Channel Ban (' . $ban->getHashedKey() . ') Deleted Successfully.'
+        ]);
     }
 }
