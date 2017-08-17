@@ -11,7 +11,7 @@
  * @apiPermission      none
  *
  * @apiParam           {Number}  user_id User which will be banned
- * @apiParam           [{String{3..160}}]  reason Ban reason
+ * @apiParam           {String{3..160}}  [reason] Ban reason
  * @apiParam           {Number}  expire Number of seconds when ban will be expired
  *
  * @apiHeader          Accept application/json
