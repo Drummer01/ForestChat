@@ -115,6 +115,6 @@ class Controller extends ApiController
     {
         $roles = $this->call(ListAllChannelRolesAction::class, [$request]);
 
-        return $this->transform($roles, ChannelRoleTransformer::class);
+        return $this->transform($roles, ChannelRoleTransformer::class, ['members']);
     }
 }
