@@ -4,7 +4,7 @@
  * @apiGroup           Channel
  * @apiName            searchChannel
  *
- * @api                {GET} /v1/channel?search=name:Test Search channel by fields
+ * @api                {GET} /v1/channel?search=name:Test Search channel
  * @apiDescription     Retrieve channel list by search query
  *
  * @apiVersion         1.0.0
