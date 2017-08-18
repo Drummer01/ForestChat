@@ -14,22 +14,6 @@ use Illuminate\Support\Collection;
 
 trait HasChannelRoles
 {
-
-    /**
-     * @var Channel
-     */
-    private $channel;
-
-    /**
-     * @param Channel $channel
-     * @return $this
-     */
-    public function withChannel($channel)
-    {
-        $this->channel = $channel;
-        return $this;
-    }
-
     /**
      * @return mixed
      */
