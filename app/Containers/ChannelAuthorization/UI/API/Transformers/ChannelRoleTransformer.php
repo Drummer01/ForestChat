@@ -30,6 +30,7 @@ class ChannelRoleTransformer extends Transformer
             'id' => $entity->getHashedKey(),
             'name' => $entity->name,
             'display_name' => $entity->display_name,
+            'color'   => $entity->color,
             'created_at' => $entity->created_at,
             'updated_at' => $entity->updated_at,
         ];

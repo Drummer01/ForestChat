@@ -16,6 +16,7 @@ class CreateChannelRolesTable extends Migration
         Schema::create('channel_roles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('color')->nullable();
             $table->string('display_name');
             $table->string('description')->nullable();
             $table->unsignedInteger('channel_id')->index()->default(0);
