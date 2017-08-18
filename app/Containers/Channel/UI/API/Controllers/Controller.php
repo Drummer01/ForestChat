@@ -6,6 +6,7 @@ use App\Containers\Channel\Actions\CreateChannelAction;
 use App\Containers\Channel\Actions\DeleteChannelAction;
 use App\Containers\Channel\Actions\GetChannelAction;
 use App\Containers\Channel\Actions\GetChannelListAction;
+use App\Containers\Channel\Actions\GetChannelStaffAction;
 use App\Containers\Channel\Actions\RestoreChannelAction;
 use App\Containers\Channel\Actions\SearchChannelAction;
 use App\Containers\Channel\Actions\UpdateChannelDataAction;
@@ -13,10 +14,14 @@ use App\Containers\Channel\UI\API\Requests\CreateChannelRequest;
 use App\Containers\Channel\UI\API\Requests\DeleteChannelRequest;
 use App\Containers\Channel\UI\API\Requests\GetChannelListRequest;
 use App\Containers\Channel\UI\API\Requests\GetChannelRequest;
+use App\Containers\Channel\UI\API\Requests\GetChannelStaffRequest;
 use App\Containers\Channel\UI\API\Requests\RestoreChannelRequest;
 use App\Containers\Channel\UI\API\Requests\SearchChannelRequest;
 use App\Containers\Channel\UI\API\Requests\UpdateChannelDataRequest;
 use App\Containers\Channel\UI\API\Transformers\ChannelTransformer;
+use App\Containers\ChannelAuthorization\Actions\ListAllChannelRolesAction;
+use App\Containers\ChannelAuthorization\UI\API\Transformers\ChannelRoleTransformer;
+use App\Containers\User\UI\API\Transformers\UserTransformer;
 use App\Ship\Parents\Controllers\ApiController;
 
 class Controller extends ApiController
@@ -91,10 +96,25 @@ class Controller extends ApiController
         ]);
     }
 
+    /**
+     * @param SearchChannelRequest $request
+     * @return mixed
+     */
     public function searchChannel(SearchChannelRequest $request)
     {
         $list = $this->call(SearchChannelAction::class, [$request]);
 
         return $this->transform($list, ChannelTransformer::class);
+    }
+
+    /**
+     * @param GetChannelStaffRequest $request
+     * @return mixed
+     */
+    public function getStaff(GetChannelStaffRequest $request)
+    {
+        $roles = $this->call(ListAllChannelRolesAction::class, [$request]);
+
+        return $this->transform($roles, ChannelRoleTransformer::class);
     }
 }
