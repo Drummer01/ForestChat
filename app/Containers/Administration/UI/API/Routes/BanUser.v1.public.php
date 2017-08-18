@@ -8,7 +8,7 @@
  * @apiDescription     Allows to block access to certain channel
  *
  * @apiVersion         1.0.0
- * @apiPermission      none
+ * @apiPermission      Authenticated user
  *
  * @apiParam           {Number}  user_id User which will be banned
  * @apiParam           {String{3..160}}  [reason] Ban reason

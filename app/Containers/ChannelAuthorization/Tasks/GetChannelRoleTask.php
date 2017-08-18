@@ -15,7 +15,7 @@ class GetChannelRoleTask extends Task
      * @param integer|string $roleIdOrName
      * @return mixed
      */
-    public function run(Channel $channel, $roleIdOrName)
+    public function run($channel, $roleIdOrName)
     {
         $query = is_numeric($roleIdOrName) ? ['id' => $roleIdOrName] : ['name' => $roleIdOrName];
         $query['channel_id'] = is_null($channel) ? 0 : $channel->id;

@@ -16,7 +16,7 @@ class AssignUserToChannelRoleTask extends Task
      * @param array|ChannelRole $roles
      * @return array|ChannelRole
      */
-    public function run(User $user, Channel $channel, array $roles)
+    public function run(User $user, Channel $channel, $roles)
     {
         try {
             return $user->withChannel($channel)->assignChannelRole($roles)->channelRoles;
