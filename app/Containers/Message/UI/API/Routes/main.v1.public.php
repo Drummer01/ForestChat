@@ -19,10 +19,11 @@
 }
  */
 
-$router->get('channels/{id}/history', [
+$router->get('channel/{id}/history', [
     'uses'  => 'Controller@getChannelMessageHistory',
     'middleware' => [
-      'auth:api',
+        'auth:api',
+        'prevent-banned-user'
     ],
 ]);
 
