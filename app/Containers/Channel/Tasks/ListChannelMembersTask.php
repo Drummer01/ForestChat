@@ -5,6 +5,10 @@ namespace App\Containers\Channel\Tasks;
 use App\Containers\Channel\Models\Channel;
 use App\Ship\Parents\Tasks\Task;
 
+/**
+ * Class ListChannelMembersTask
+ * @author Andriy Butnar <xpaand4@gmail.com>
+ */
 class ListChannelMembersTask extends Task
 {
     /**

@@ -7,6 +7,10 @@ use App\Containers\Channel\Tasks\ListChannelMembersTask;
 use App\Ship\Parents\Actions\Action;
 use App\Ship\Parents\Requests\Request;
 
+/**
+ * Class ListChannelMembersAction
+ * @author Andriy Butnar <xpaand4@gmail.com>
+ */
 class ListChannelMembersAction extends Action
 {
     /**

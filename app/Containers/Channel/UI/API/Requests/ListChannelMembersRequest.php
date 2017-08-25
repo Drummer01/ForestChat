@@ -5,7 +5,8 @@ namespace App\Containers\Channel\UI\API\Requests;
 use App\Ship\Parents\Requests\Request;
 
 /**
- * Class ListChannelMembersRequest.
+ * Class ListChannelMembersRequest
+ * @author Andriy Butnar <xpaand4@gmail.com>
  */
 class ListChannelMembersRequest extends Request
 {
