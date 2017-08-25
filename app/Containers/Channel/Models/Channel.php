@@ -3,6 +3,7 @@
 namespace App\Containers\Channel\Models;
 
 use App\Containers\ChannelAuthorization\Models\ChannelRole;
+use App\Containers\User\Models\User;
 use App\Ship\Parents\Models\Model;
 
 class Channel extends Model
@@ -40,5 +41,14 @@ class Channel extends Model
     public function roles()
     {
         return $this->hasMany(ChannelRole::class)->orWhere('channel_id', 0);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function members()
+    {
+//        dd($this->belongsToMany(User::class, 'channel_members')->toSql());
+        return $this->belongsToMany(User::class, 'channel_members');
     }
 }
