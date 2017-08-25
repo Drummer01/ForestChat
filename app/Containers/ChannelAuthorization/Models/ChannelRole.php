@@ -2,14 +2,13 @@
 
 namespace App\Containers\ChannelAuthorization\Models;
 
-use App\Containers\Channel\Traits\HasChannel;
+use App\Containers\Channel\Models\Channel;
 use App\Containers\User\Models\User;
 use App\Ship\Parents\Models\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ChannelRole extends Model
 {
-    use HasChannel;
-
     const MODERATOR = 1;
     const ADMINISTRATOR = 2;
 
@@ -17,13 +16,13 @@ class ChannelRole extends Model
 
     protected $fillable = [
         'name',
+        'color',
         'display_name',
         'description',
         'channel_id'
     ];
 
     protected $hidden = [
-        'custom'
     ];
 
     protected $casts = [];
@@ -33,13 +32,20 @@ class ChannelRole extends Model
         'updated_at',
     ];
 
+    /**
+     * @return BelongsToMany
+     */
     public function users()
     {
-        $model = $this->belongsToMany(User::class, 'user_has_channel_role', 'user_id', 'channel_role_id')
-            ->withPivot('channel_id');
-        if(!is_null($this->channel)) {
-            $model->wherePivot('channel_id', $this->channel->id);
-        }
-        return $model;
+        return $this->belongsToMany(User::class, 'user_has_channel_role', 'user_id', 'channel_role_id')
+            ->wherePivot('channel_id', $this->channel_id);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function channel()
+    {
+        return $this->belongsTo(Channel::class);
     }
 }
