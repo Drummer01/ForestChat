@@ -18,9 +18,9 @@ class CreateChannelTable extends Migration
             $table->string('name', 64);
             $table->string('password')->nullable();
             $table->unsignedInteger('creator_id')->index();
-            $table->boolean('hidden')->default(false);
             $table->string('image_url')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
 

@@ -5,12 +5,14 @@ namespace App\Containers\Channel\Models;
 use App\Containers\ChannelAuthorization\Models\ChannelRole;
 use App\Containers\User\Models\User;
 use App\Ship\Parents\Models\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Channel extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'name',
-        'hidden',
         'creator_id',
         'image_url',
         'password'
@@ -48,7 +50,6 @@ class Channel extends Model
      */
     public function members()
     {
-//        dd($this->belongsToMany(User::class, 'channel_members')->toSql());
         return $this->belongsToMany(User::class, 'channel_members');
     }
 }
