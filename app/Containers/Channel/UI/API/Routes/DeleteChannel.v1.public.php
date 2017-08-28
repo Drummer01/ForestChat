@@ -4,7 +4,7 @@
  * @apiGroup           Channel
  * @apiName            deleteChannel
  *
- * @api                {DELETE} /v1/channel/1 Delete
+ * @api                {DELETE} /v1/channel/:id Delete
  * @apiDescription     Delete channel
  *
  * @apiVersion         1.0.0
@@ -16,11 +16,10 @@
  * @apiHeader          Authorization Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ91QiLCJhbGciOiJIUzI1NiJ1..
  *
  * @apiSuccessExample  {json}  Success-Response:
- * HTTP/1.1 200 OK
+ * HTTP/1.1 202 OK
 {
     "data": {
-    "message": "Channel deleted successfully.",
-        "success": true
+        "message": "Channel deleted successfully."
     }
 }
 */

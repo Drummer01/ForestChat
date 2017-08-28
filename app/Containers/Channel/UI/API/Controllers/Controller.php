@@ -75,10 +75,9 @@ class Controller extends ApiController
     public function deleteChannel(DeleteChannelRequest $request)
     {
         $this->call(DeleteChannelAction::class, [$request]);
-        return $this->json([
+        return $this->accepted([
             'data' => [
                 'message' => 'Channel deleted successfully.',
-                'success' => true
             ]
         ]);
     }
@@ -90,10 +89,9 @@ class Controller extends ApiController
     public function restoreChannel(RestoreChannelRequest $request)
     {
         $this->call(RestoreChannelAction::class, [$request]);
-        return $this->json([
+        return $this->accepted([
             'data' => [
                 'message' => 'Channel restored successfully.',
-                'success' => true
             ]
         ]);
     }
