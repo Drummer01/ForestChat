@@ -14,32 +14,6 @@ use App\Ship\Parents\Actions\Action;
 
 class CreateChannelAction extends Action
 {
-
-    private $defaultChannelRolesData = [
-        [
-            'name' => 'administrator',
-            'display_name' => 'Administrator',
-            'color' => '#073b8e',
-            'permissions' => [
-                'remove-channel',
-                'update-channel',
-                'manage-channel-bans',
-                'manage-staff-access',
-                'manage-channel-roles',
-                'kick-users'
-            ]
-        ],
-        [
-            'name' => 'moderator',
-            'display_name' => 'Moderator',
-            'color' => '#870484',
-            'permissions' => [
-                'update-channel',
-                'kick-users'
-            ]
-        ]
-    ];
-
     /**
      * @param CreateChannelRequest $request
      * @return mixed
@@ -59,7 +33,7 @@ class CreateChannelAction extends Action
          * Create default channel roles for newly created channel
          * Administrator, Moderator
          */
-        foreach ($this->defaultChannelRolesData as $roleData) {
+        foreach (config('channel-settings.default_channel_roles') as $roleData) {
             $roleData['channel_id'] = $channel->id;
             $role = $this->call(CreateChannelRoleTask::class, [$roleData]);
 
