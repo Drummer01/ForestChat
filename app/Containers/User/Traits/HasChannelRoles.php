@@ -85,4 +85,28 @@ trait HasChannelRoles
         $this->channelRoles()->detach($roleId);
         return $this;
     }
+
+    /**
+     * @param $permission
+     *
+     * @return bool
+     */
+    public function hasChannelPermissionTo($permission)
+    {
+        if (is_string($permission)) {
+            $permission = app(Permission::class)->findByName($permission);
+        }
+
+        return $this->hasDirectPermission($permission) || $this->hasPermissionViaChannelRole($permission);
+    }
+
+    /**
+     * @param $permission
+     *
+     * @return bool
+     */
+    protected function hasPermissionViaChannelRole($permission)
+    {
+        return $this->hasChannelRole($permission->channelRoles);
+    }
 }
