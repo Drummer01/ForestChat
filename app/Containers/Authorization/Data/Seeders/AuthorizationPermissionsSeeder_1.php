@@ -27,5 +27,13 @@ class AuthorizationPermissionsSeeder_1 extends Seeder
         App::make(CreatePermissionTask::class)->run('manage-admins-access', 'Assign users to Roles.');
         App::make(CreatePermissionTask::class)->run('access-dashboard', 'Access the admins dashboard.');
 
+        // Default Permissions related to channel -----------------------------------------------------------
+
+        App::make(CreatePermissionTask::class)->run('remove-channel', 'Remove channel from list.');
+        App::make(CreatePermissionTask::class)->run('update-channel', 'Update channel data.');
+        App::make(CreatePermissionTask::class)->run('manage-channel-bans', 'Block\Unblock User from accessing channel.');
+        App::make(CreatePermissionTask::class)->run('manage-staff-access', 'Assign\Revoke users to channel Roles.');
+        App::make(CreatePermissionTask::class)->run('manage-channel-roles', 'Create, Update, Delete, List, Attach\Detach permissions from\to channel Role.');
+        App::make(CreatePermissionTask::class)->run('kick-users', 'Kick users from channel.');
     }
 }

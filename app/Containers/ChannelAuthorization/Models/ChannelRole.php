@@ -2,15 +2,18 @@
 
 namespace App\Containers\ChannelAuthorization\Models;
 
+use App\Containers\Authorization\Models\Permission;
 use App\Containers\Channel\Models\Channel;
 use App\Containers\User\Models\User;
 use App\Ship\Parents\Models\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Traits\RefreshesPermissionCache;
 
 class ChannelRole extends Model
 {
-    const MODERATOR = 1;
-    const ADMINISTRATOR = 2;
+    use HasPermissions;
+    use RefreshesPermissionCache;
 
     protected $table = 'channel_roles';
 
@@ -47,5 +50,13 @@ class ChannelRole extends Model
     public function channel()
     {
         return $this->belongsTo(Channel::class);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'channel_role_has_permissions');
     }
 }
