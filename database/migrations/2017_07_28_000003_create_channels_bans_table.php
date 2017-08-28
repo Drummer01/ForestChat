@@ -48,6 +48,6 @@ class CreateChannelsBansTable extends Migration
      */
     public function down()
     {
-        Schema::drop('channels_bans');
+        Schema::drop('channel_bans');
     }
 }
