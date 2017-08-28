@@ -24,6 +24,6 @@ trait ChannelOwning
     {
         return $user->id === $channel->creator_id
             || $user->hasRole('Admin')
-            || $user->withChannel($channel)->hasChannelRole(ChannelRole::ADMINISTRATOR);
+            || $user->withChannel($channel)->hasChannelRole('administrator');
     }
 }

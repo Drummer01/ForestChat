@@ -27,4 +27,12 @@ trait HasChannel
         $this->channel = $channel;
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function hasChannel()
+    {
+        return is_null($this->channel);
+    }
 }
