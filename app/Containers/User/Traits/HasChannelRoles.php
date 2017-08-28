@@ -11,6 +11,7 @@ namespace App\Containers\User\Traits;
 use App\Containers\Channel\Models\Channel;
 use App\Containers\ChannelAuthorization\Models\ChannelRole;
 use Illuminate\Support\Collection;
+use Spatie\Permission\Contracts\Permission;
 
 trait HasChannelRoles
 {
@@ -55,7 +56,7 @@ trait HasChannelRoles
             return false;
         }
 
-        return false;
+        return (bool) $roles->intersect($this->channelRoles)->count();
     }
 
     /***
