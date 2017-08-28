@@ -3,9 +3,11 @@
 namespace App\Containers\Channel\Actions;
 
 use App\Containers\Authentication\Tasks\GetAuthenticatedUserTask;
+use App\Containers\Authorization\Tasks\GetPermissionTask;
 use App\Containers\Channel\Tasks\CreateChannelTask;
 use App\Containers\Channel\UI\API\Requests\CreateChannelRequest;
 use App\Containers\ChannelAuthorization\Tasks\AssignUserToChannelRoleTask;
+use App\Containers\ChannelAuthorization\Tasks\AttachPermissionToChannelRoleTask;
 use App\Containers\ChannelAuthorization\Tasks\CreateChannelRoleTask;
 use App\Containers\ChannelAuthorization\Tasks\GetChannelRoleTask;
 use App\Ship\Parents\Actions\Action;
@@ -17,12 +19,24 @@ class CreateChannelAction extends Action
         [
             'name' => 'administrator',
             'display_name' => 'Administrator',
-            'color' => '#073b8e'
+            'color' => '#073b8e',
+            'permissions' => [
+                'remove-channel',
+                'update-channel',
+                'manage-channel-bans',
+                'manage-staff-access',
+                'manage-channel-roles',
+                'kick-users'
+            ]
         ],
         [
             'name' => 'moderator',
             'display_name' => 'Moderator',
-            'color' => '#870484'
+            'color' => '#870484',
+            'permissions' => [
+                'update-channel',
+                'kick-users'
+            ]
         ]
     ];
 
@@ -47,7 +61,12 @@ class CreateChannelAction extends Action
          */
         foreach ($this->defaultChannelRolesData as $roleData) {
             $roleData['channel_id'] = $channel->id;
-            $this->call(CreateChannelRoleTask::class, [$roleData]);
+            $role = $this->call(CreateChannelRoleTask::class, [$roleData]);
+
+            /**
+             * Attach permissions to channel roles
+             */
+            $role->givePermissionTo($roleData['permissions']);
         }
 
         //assign administrator role to channel owner
