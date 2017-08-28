@@ -16,7 +16,7 @@ class UpdateChannelDataRequest extends Request
      * @var  array
      */
     protected $access = [
-        'permissions' => '',
+        'permissions' => 'update-channel',
         'roles'       => '',
     ];
 
@@ -57,7 +57,8 @@ class UpdateChannelDataRequest extends Request
      */
     public function authorize()
     {
-        $channel = Channel::find($this->id);
-        return $this->user()->can('update', $channel);
+        return $this->check([
+            'hasAccess|hasChannelAccess'
+        ]);
     }
 }

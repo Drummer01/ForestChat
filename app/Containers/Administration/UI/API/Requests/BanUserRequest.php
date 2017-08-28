@@ -15,9 +15,9 @@ class BanUserRequest extends Request
      * @var  array
      */
     protected $access = [
-        'permissions' => '',
+        'permissions' => 'manage-channel-bans',
         'roles'       => '',
-        'channel_roles' => 'administrator'
+        'channel_roles' => ''
     ];
 
     /**
@@ -58,7 +58,7 @@ class BanUserRequest extends Request
     public function authorize()
     {
         return $this->check([
-            'hasAccess',
+            'hasAccess|hasChannelAccess',
         ]);
     }
 }
