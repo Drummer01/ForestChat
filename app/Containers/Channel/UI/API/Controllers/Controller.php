@@ -35,7 +35,7 @@ class Controller extends ApiController
     public function createChannel(CreateChannelRequest $request)
     {
         $channel = $this->call(CreateChannelAction::class, [$request]);
-        return $this->transform($channel, new ChannelTransformer());
+        return $this->transform($channel, ChannelTransformer::class);
     }
 
     /**
@@ -45,7 +45,7 @@ class Controller extends ApiController
     public function getChannel(GetChannelRequest $request)
     {
         $channel = $this->call(GetChannelAction::class, [$request]);
-        return $this->transform($channel, new ChannelTransformer());
+        return $this->transform($channel, ChannelTransformer::class);
     }
 
     /**
@@ -65,7 +65,7 @@ class Controller extends ApiController
     public function updateChannelData(UpdateChannelDataRequest $request)
     {
         $channel = $this->call(UpdateChannelDataAction::class, [$request]);
-        return $this->transform($channel, new ChannelTransformer());
+        return $this->transform($channel, ChannelTransformer::class);
     }
 
     /**
