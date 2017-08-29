@@ -2,17 +2,15 @@
 
 namespace App\Containers\Message\UI\API\Transformers;
 
-use App\Containers\Message\Models\Message;
-use App\Containers\User\UI\API\Transformers\UserTransformer;
+use App\Containers\Message\Models\Attachment;
 use App\Ship\Parents\Transformers\Transformer;
 
-class MessageTransformer extends Transformer
+class AttachmentTransformer extends Transformer
 {
     /**
      * @var  array
      */
     protected $defaultIncludes = [
-        'sender'
     ];
 
     /**
@@ -22,18 +20,16 @@ class MessageTransformer extends Transformer
     ];
 
     /**
-     * @param Message $entity
+     * @param Attachment $entity
      * @return array
      */
-    public function transform(Message $entity)
+    public function transform(Attachment $entity)
     {
         $response = [
-
-            'object' => 'Message',
+            'object' => 'Attachment',
             'id' => $entity->getHashedKey(),
-            'text' => $entity->text,
             'type' => $entity->type,
-            'attachments' => $entity->attachments,
+            'source' => $entity->original_source,
             'created_at' => $entity->created_at,
             'updated_at' => $entity->updated_at,
         ];
@@ -43,14 +39,5 @@ class MessageTransformer extends Transformer
         ], $response);
 
         return $response;
-    }
-
-    /**
-     * @param Message $message
-     * @return \League\Fractal\Resource\Item
-     */
-    public function includeSender(Message $message)
-    {
-        return $this->item($message->user, new UserTransformer());
     }
 }
