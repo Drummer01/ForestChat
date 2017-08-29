@@ -55,7 +55,7 @@ class Controller extends ApiController
     public function getChannelsList(GetChannelListRequest $request)
     {
         $list = $this->call(GetChannelListAction::class, [$request]);
-        return $this->transform($list, new ChannelTransformer());
+        return $this->transform($list, ChannelTransformer::class, ['lastMessage']);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Containers\Channel\Models;
 
 use App\Containers\ChannelAuthorization\Models\ChannelRole;
+use App\Containers\Message\Models\Message;
 use App\Containers\User\Models\User;
 use App\Ship\Parents\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -51,5 +52,13 @@ class Channel extends Model
     public function members()
     {
         return $this->belongsToMany(User::class, 'channel_members');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
     }
 }

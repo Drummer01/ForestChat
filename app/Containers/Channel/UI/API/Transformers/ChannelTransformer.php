@@ -3,6 +3,7 @@
 namespace App\Containers\Channel\UI\API\Transformers;
 
 use App\Containers\Channel\Models\Channel;
+use App\Containers\Message\UI\API\Transformers\MessageTransformer;
 use App\Ship\Parents\Transformers\Transformer;
 
 class ChannelTransformer extends Transformer
@@ -17,6 +18,7 @@ class ChannelTransformer extends Transformer
      * @var  array
      */
     protected $availableIncludes = [
+        'lastMessage'
     ];
 
     /**
@@ -43,5 +45,15 @@ class ChannelTransformer extends Transformer
         ], $response);
 
         return $response;
+    }
+
+    /**
+     * @param Channel $channel
+     * @return mixed
+     */
+    public function includeLastMessage(Channel $channel)
+    {
+        $message = $channel->messages()->first();
+        return is_null($message) ? $this->null() : $this->item($message, new MessageTransformer());
     }
 }
