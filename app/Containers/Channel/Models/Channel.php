@@ -43,7 +43,7 @@ class Channel extends Model
      */
     public function roles()
     {
-        return $this->hasMany(ChannelRole::class)->orWhere('channel_id', 0);
+        return $this->hasMany(ChannelRole::class);
     }
 
     /**
