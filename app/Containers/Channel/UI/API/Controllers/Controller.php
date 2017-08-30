@@ -6,7 +6,6 @@ use App\Containers\Channel\Actions\CreateChannelAction;
 use App\Containers\Channel\Actions\DeleteChannelAction;
 use App\Containers\Channel\Actions\GetChannelAction;
 use App\Containers\Channel\Actions\GetChannelListAction;
-use App\Containers\Channel\Actions\GetChannelStaffAction;
 use App\Containers\Channel\Actions\ListChannelMembersAction;
 use App\Containers\Channel\Actions\RestoreChannelAction;
 use App\Containers\Channel\Actions\SearchChannelAction;
@@ -115,7 +114,7 @@ class Controller extends ApiController
     {
         $roles = $this->call(ListAllChannelRolesAction::class, [$request]);
 
-        return $this->transform($roles, ChannelRoleTransformer::class, ['members']);
+        return $this->transform($roles, ChannelRoleTransformer::class, ['users']);
     }
 
     /**
