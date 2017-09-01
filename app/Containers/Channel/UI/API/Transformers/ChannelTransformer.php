@@ -4,6 +4,7 @@ namespace App\Containers\Channel\UI\API\Transformers;
 
 use App\Containers\Channel\Models\Channel;
 use App\Containers\Message\UI\API\Transformers\MessageTransformer;
+use App\Containers\User\UI\API\Transformers\UserTransformer;
 use App\Ship\Parents\Transformers\Transformer;
 
 class ChannelTransformer extends Transformer
@@ -18,7 +19,8 @@ class ChannelTransformer extends Transformer
      * @var  array
      */
     protected $availableIncludes = [
-        'lastMessage'
+        'lastMessage',
+        'creator'
     ];
 
     /**
@@ -55,5 +57,15 @@ class ChannelTransformer extends Transformer
     {
         $message = $channel->messages()->first();
         return is_null($message) ? $this->null() : $this->item($message, new MessageTransformer());
+    }
+
+    /**
+     * @param Channel $channel
+     *
+     * @return \League\Fractal\Resource\Item
+     */
+    public function includeCreator(Channel $channel)
+    {
+        return $this->item($channel->creator, new UserTransformer());
     }
 }

@@ -61,4 +61,12 @@ class Channel extends Model
     {
         return $this->hasMany(Message::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'creator_id');
+    }
 }
