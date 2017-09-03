@@ -176,6 +176,11 @@ return [
          * NOTE: all packages service providers must be registered inside their container's main service providers.
          */
         Apiato\Core\Providers\ApiatoProvider::class,
+
+        /**
+         * Custom service providers
+         */
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class
     ],
 
     /*
@@ -225,6 +230,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         // NOTE: all packages aliases must be registered inside their containers service providers
+
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
     ],
 
 ];
