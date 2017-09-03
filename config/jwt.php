@@ -73,7 +73,7 @@ return [
     |
     */
 
-    'user' => 'App\User',
+    'user' => \App\Containers\User\Models\User::class,
 
     /*
     |--------------------------------------------------------------------------
