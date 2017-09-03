@@ -24,7 +24,6 @@ class Controller extends ApiController
      */
     public function assignUserToChannelRole(AssignUserToChannelRoleRequest $request)
     {
-        //TODO: Authrorize
         $roles = $this->call(AssignUserToChannelRoleAction::class, [$request]);
         return $this->transform($roles, ChannelRoleTransformer::class);
     }

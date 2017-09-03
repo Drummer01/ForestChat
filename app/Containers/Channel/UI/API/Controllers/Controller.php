@@ -9,6 +9,7 @@ use App\Containers\Channel\Actions\GetChannelListAction;
 use App\Containers\Channel\Actions\ListChannelMembersAction;
 use App\Containers\Channel\Actions\RestoreChannelAction;
 use App\Containers\Channel\Actions\SearchChannelAction;
+use App\Containers\Channel\Actions\SearchMembersAction;
 use App\Containers\Channel\Actions\UpdateChannelDataAction;
 use App\Containers\Channel\UI\API\Requests\CreateChannelRequest;
 use App\Containers\Channel\UI\API\Requests\DeleteChannelRequest;
@@ -18,6 +19,7 @@ use App\Containers\Channel\UI\API\Requests\GetChannelStaffRequest;
 use App\Containers\Channel\UI\API\Requests\ListChannelMembersRequest;
 use App\Containers\Channel\UI\API\Requests\RestoreChannelRequest;
 use App\Containers\Channel\UI\API\Requests\SearchChannelRequest;
+use App\Containers\Channel\UI\API\Requests\SearchMembersRequest;
 use App\Containers\Channel\UI\API\Requests\UpdateChannelDataRequest;
 use App\Containers\Channel\UI\API\Transformers\ChannelTransformer;
 use App\Containers\ChannelAuthorization\Actions\ListAllChannelRolesAction;
@@ -126,5 +128,12 @@ class Controller extends ApiController
         $members = $this->call(ListChannelMembersAction::class, [$request]);
 
         return $this->transform($members, UserTransformer::class, ['channel-roles']);
+    }
+
+    public function searchChannelMembers(SearchMembersRequest $request)
+    {
+        $members = $this->call(SearchMembersAction::class, [$request]);
+
+        return $this->transform($members, UserTransformer::class);
     }
 }
