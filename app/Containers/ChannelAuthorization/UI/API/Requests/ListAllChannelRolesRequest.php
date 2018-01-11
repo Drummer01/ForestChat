@@ -15,7 +15,7 @@ class ListAllChannelRolesRequest extends Request
      * @var  array
      */
     protected $access = [
-        'permissions' => '',
+        'permissions' => 'manage-channel-roles',
         'roles'       => '',
     ];
 
@@ -54,7 +54,7 @@ class ListAllChannelRolesRequest extends Request
     public function authorize()
     {
         return $this->check([
-            'hasAccess',
+            'hasAccess|hasChannelAccess',
         ]);
     }
 }

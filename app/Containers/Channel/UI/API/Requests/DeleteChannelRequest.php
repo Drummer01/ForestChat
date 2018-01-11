@@ -16,7 +16,7 @@ class DeleteChannelRequest extends Request
      * @var  array
      */
     protected $access = [
-        'permissions' => '',
+        'permissions' => 'remove-channel',
         'roles'       => '',
     ];
 
@@ -45,7 +45,7 @@ class DeleteChannelRequest extends Request
     public function rules()
     {
         return [
-             'id' => 'required|integer'
+             'id' => 'required|integer|exists:channels,id'
         ];
     }
 
@@ -54,7 +54,8 @@ class DeleteChannelRequest extends Request
      */
     public function authorize()
     {
-        $chanel = Channel::find($this->id);
-        return $this->user()->can('delete', $chanel);
+        return $this->check([
+            'hasAccess|hasChannelAccess'
+        ]);
     }
 }

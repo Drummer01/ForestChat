@@ -29,7 +29,7 @@ trait HasBans
      */
     public function isBanned()
     {
-        return empty($this->bans);
+        return $this->bans->isNotEmpty();
     }
 
     /**

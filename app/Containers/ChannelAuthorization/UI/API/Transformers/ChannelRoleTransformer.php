@@ -2,6 +2,7 @@
 
 namespace App\Containers\ChannelAuthorization\UI\API\Transformers;
 
+use App\Containers\Channel\UI\API\Transformers\ChannelTransformer;
 use App\Containers\ChannelAuthorization\Models\ChannelRole;
 use App\Containers\User\UI\API\Transformers\UserTransformer;
 use App\Ship\Parents\Transformers\Transformer;
@@ -18,7 +19,8 @@ class ChannelRoleTransformer extends Transformer
      * @var  array
      */
     protected $availableIncludes = [
-        'members'
+        'users',
+        'channel'
     ];
 
     /**
@@ -44,8 +46,13 @@ class ChannelRoleTransformer extends Transformer
         return $response;
     }
 
-    public function includeMembers(ChannelRole $role)
+    public function includeUsers(ChannelRole $role)
     {
         return $this->collection($role->users, new UserTransformer());
+    }
+
+    public function includeChannel(ChannelRole $role)
+    {
+        return $this->item($role->channel, new ChannelTransformer());
     }
 }

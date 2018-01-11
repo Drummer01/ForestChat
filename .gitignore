@@ -12,3 +12,4 @@ storage/logs/laravel.log
 /public/uploads/
 /laradock*/
 composer.lock
+/.idea

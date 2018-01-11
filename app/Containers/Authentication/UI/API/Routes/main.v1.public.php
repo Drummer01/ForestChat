@@ -1,21 +1,27 @@
 <?php
 
 /**
- * @apiGroup           Authentication
+ * @apiGroup           OAuth2
  * @apiName            loginWithCredentials
  *
- * @api                {POST} /v1/login Endpoint title here..
- * @apiDescription     Endpoint description here..
+ * @api                {POST} /v1/login Login
+ * @apiDescription     Login with nickname and password
  *
  * @apiVersion         1.0.0
  * @apiPermission      none
  *
- * @apiParam           {String}  parameters here..
+ * @apiParam           {String}  nickname
+ * @apiParam           {String}  password
+ *
+ * @apiHeader          Accept application/json
+ * @apiHeader          Content-Type application/json
  *
  * @apiSuccessExample  {json}  Success-Response:
  * HTTP/1.1 200 OK
 {
-  // Insert the response of the request here...
+"token_type": "Bearer",
+"expires_in": 315360000,
+"access_token": "eyJ0eXAiOiJKV1QiLCJhbG..."
 }
  */
 
@@ -26,7 +32,7 @@ $router->post('login', [
 /**
  * @apiGroup           OAuth2
  * @apiName            ClientAdminWebAppRefreshProxy
- * @api                {post} /v1/clients/web/admin/refresh Refresh
+ * @api                {post} /v1/refresh Refresh
  * @apiDescription     Refresh access token based on refreshToken http cookie.
  *
  * @apiVersion         1.0.0
@@ -41,7 +47,7 @@ $router->post('login', [
  */
 
 $router->post('refresh', [
-    'uses'  => 'Controller@proxyRefreshForAdminWebClient',
+    'uses'  => 'Controller@refresh',
 ]);
 
 /**

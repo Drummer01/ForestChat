@@ -15,7 +15,7 @@ class RevokeUserFromChannelRoleRequest extends Request
      * @var  array
      */
     protected $access = [
-        'permissions' => '',
+        'permissions' => 'manage-staff-access',
         'roles'       => '',
     ];
 
@@ -57,7 +57,7 @@ class RevokeUserFromChannelRoleRequest extends Request
     public function authorize()
     {
         return $this->check([
-            'hasAccess',
+            'hasAccess|hasChannelAccess',
         ]);
     }
 }

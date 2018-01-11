@@ -33,6 +33,7 @@ class MessageTransformer extends Transformer
             'id' => $entity->getHashedKey(),
             'text' => $entity->text,
             'type' => $entity->type,
+            'attachments' => $entity->attachments,
             'created_at' => $entity->created_at,
             'updated_at' => $entity->updated_at,
         ];

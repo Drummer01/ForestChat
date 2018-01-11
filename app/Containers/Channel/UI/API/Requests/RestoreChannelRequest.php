@@ -16,8 +16,9 @@ class RestoreChannelRequest extends Request
      * @var  array
      */
     protected $access = [
-        'permissions' => '',
+        'permissions' => 'remove-channel',
         'roles'       => '',
+        'channel-roles' => ''
     ];
 
     /**
@@ -45,7 +46,7 @@ class RestoreChannelRequest extends Request
     public function rules()
     {
         return [
-             'id' => 'required|integer'
+             'id' => 'required|integer|exists:channels,id'
         ];
     }
 
@@ -54,7 +55,8 @@ class RestoreChannelRequest extends Request
      */
     public function authorize()
     {
-        $channel = Channel::find($this->id);
-        return $this->user()->can('restore', $channel);
+        return $this->check([
+            'hasAccess|hasChannelAccess',
+        ]);
     }
 }

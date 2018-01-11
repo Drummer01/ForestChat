@@ -15,7 +15,7 @@ class AssignUserToChannelRoleRequest extends Request
      * @var  array
      */
     protected $access = [
-        'permissions' => '',
+        'permissions' => 'manage-staff-access',
         'roles'       => '',
     ];
 
@@ -56,7 +56,7 @@ class AssignUserToChannelRoleRequest extends Request
     public function authorize()
     {
         return $this->check([
-            'hasAccess',
+            'hasAccess|hasChannelAccess',
         ]);
     }
 }

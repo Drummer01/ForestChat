@@ -11,6 +11,7 @@ namespace App\Containers\User\Traits;
 use App\Containers\Channel\Models\Channel;
 use App\Containers\ChannelAuthorization\Models\ChannelRole;
 use Illuminate\Support\Collection;
+use Spatie\Permission\Contracts\Permission;
 
 trait HasChannelRoles
 {
@@ -55,7 +56,7 @@ trait HasChannelRoles
             return false;
         }
 
-        return false;
+        return (bool) $roles->intersect($this->channelRoles)->count();
     }
 
     /***
@@ -84,5 +85,29 @@ trait HasChannelRoles
     {
         $this->channelRoles()->detach($roleId);
         return $this;
+    }
+
+    /**
+     * @param $permission
+     *
+     * @return bool
+     */
+    public function hasChannelPermissionTo($permission)
+    {
+        if (is_string($permission)) {
+            $permission = app(Permission::class)->findByName($permission);
+        }
+
+        return $this->hasDirectPermission($permission) || $this->hasPermissionViaChannelRole($permission);
+    }
+
+    /**
+     * @param $permission
+     *
+     * @return bool
+     */
+    protected function hasPermissionViaChannelRole($permission)
+    {
+        return $this->hasChannelRole($permission->channelRoles);
     }
 }

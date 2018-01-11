@@ -1,10 +1,10 @@
 <?php
 
 /**
- * @apiGroup           Message
- * @apiName            getChannelMessageHistory
+ * @apiGroup           Authentication
+ * @apiName            makeJWTToken
  *
- * @api                {GET} /v1/channels/{id}/history Endpoint title here..
+ * @api                {GET} /v1/realtime/jwt Endpoint title here..
  * @apiDescription     Endpoint description here..
  *
  * @apiVersion         1.0.0
@@ -19,11 +19,9 @@
 }
  */
 
-$router->get('channels/{id}/history', [
-    'uses'  => 'Controller@getChannelMessageHistory',
+$router->get('realtime/jwt', [
+    'uses'  => 'Controller@makeJWTToken',
     'middleware' => [
       'auth:api',
     ],
 ]);
-
-

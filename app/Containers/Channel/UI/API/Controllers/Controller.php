@@ -6,17 +6,20 @@ use App\Containers\Channel\Actions\CreateChannelAction;
 use App\Containers\Channel\Actions\DeleteChannelAction;
 use App\Containers\Channel\Actions\GetChannelAction;
 use App\Containers\Channel\Actions\GetChannelListAction;
-use App\Containers\Channel\Actions\GetChannelStaffAction;
+use App\Containers\Channel\Actions\ListChannelMembersAction;
 use App\Containers\Channel\Actions\RestoreChannelAction;
 use App\Containers\Channel\Actions\SearchChannelAction;
+use App\Containers\Channel\Actions\SearchMembersAction;
 use App\Containers\Channel\Actions\UpdateChannelDataAction;
 use App\Containers\Channel\UI\API\Requests\CreateChannelRequest;
 use App\Containers\Channel\UI\API\Requests\DeleteChannelRequest;
 use App\Containers\Channel\UI\API\Requests\GetChannelListRequest;
 use App\Containers\Channel\UI\API\Requests\GetChannelRequest;
 use App\Containers\Channel\UI\API\Requests\GetChannelStaffRequest;
+use App\Containers\Channel\UI\API\Requests\ListChannelMembersRequest;
 use App\Containers\Channel\UI\API\Requests\RestoreChannelRequest;
 use App\Containers\Channel\UI\API\Requests\SearchChannelRequest;
+use App\Containers\Channel\UI\API\Requests\SearchMembersRequest;
 use App\Containers\Channel\UI\API\Requests\UpdateChannelDataRequest;
 use App\Containers\Channel\UI\API\Transformers\ChannelTransformer;
 use App\Containers\ChannelAuthorization\Actions\ListAllChannelRolesAction;
@@ -33,7 +36,7 @@ class Controller extends ApiController
     public function createChannel(CreateChannelRequest $request)
     {
         $channel = $this->call(CreateChannelAction::class, [$request]);
-        return $this->transform($channel, new ChannelTransformer());
+        return $this->transform($channel, ChannelTransformer::class);
     }
 
     /**
@@ -43,7 +46,7 @@ class Controller extends ApiController
     public function getChannel(GetChannelRequest $request)
     {
         $channel = $this->call(GetChannelAction::class, [$request]);
-        return $this->transform($channel, new ChannelTransformer());
+        return $this->transform($channel, ChannelTransformer::class);
     }
 
     /**
@@ -53,7 +56,7 @@ class Controller extends ApiController
     public function getChannelsList(GetChannelListRequest $request)
     {
         $list = $this->call(GetChannelListAction::class, [$request]);
-        return $this->transform($list, new ChannelTransformer());
+        return $this->transform($list, ChannelTransformer::class, ['lastMessage']);
     }
 
     /**
@@ -63,7 +66,7 @@ class Controller extends ApiController
     public function updateChannelData(UpdateChannelDataRequest $request)
     {
         $channel = $this->call(UpdateChannelDataAction::class, [$request]);
-        return $this->transform($channel, new ChannelTransformer());
+        return $this->transform($channel, ChannelTransformer::class);
     }
 
     /**
@@ -73,10 +76,9 @@ class Controller extends ApiController
     public function deleteChannel(DeleteChannelRequest $request)
     {
         $this->call(DeleteChannelAction::class, [$request]);
-        return $this->json([
+        return $this->accepted([
             'data' => [
                 'message' => 'Channel deleted successfully.',
-                'success' => true
             ]
         ]);
     }
@@ -88,10 +90,9 @@ class Controller extends ApiController
     public function restoreChannel(RestoreChannelRequest $request)
     {
         $this->call(RestoreChannelAction::class, [$request]);
-        return $this->json([
+        return $this->accepted([
             'data' => [
                 'message' => 'Channel restored successfully.',
-                'success' => true
             ]
         ]);
     }
@@ -115,6 +116,24 @@ class Controller extends ApiController
     {
         $roles = $this->call(ListAllChannelRolesAction::class, [$request]);
 
-        return $this->transform($roles, ChannelRoleTransformer::class, ['members']);
+        return $this->transform($roles, ChannelRoleTransformer::class, ['users']);
+    }
+
+    /**
+     * @param ListChannelMembersRequest $request
+     * @return mixed
+     */
+    public function listChannelMembers(ListChannelMembersRequest $request)
+    {
+        $members = $this->call(ListChannelMembersAction::class, [$request]);
+
+        return $this->transform($members, UserTransformer::class, ['channel-roles']);
+    }
+
+    public function searchChannelMembers(SearchMembersRequest $request)
+    {
+        $members = $this->call(SearchMembersAction::class, [$request]);
+
+        return $this->transform($members, UserTransformer::class);
     }
 }

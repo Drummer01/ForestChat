@@ -16,11 +16,10 @@
  * @apiHeader          Authorization Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ91QiLCJhbGciOiJIUzI1NiJ1..
  *
  * @apiSuccessExample  {json}  Success-Response:
- * HTTP/1.1 200 OK
+ * HTTP/1.1 202 Accepted
 {
     "data": {
-    "message": "Channel restored successfully.",
-        "success": true
+        "message": "Channel restored successfully."
     }
 }
 */

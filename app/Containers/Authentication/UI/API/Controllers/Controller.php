@@ -4,10 +4,12 @@ namespace App\Containers\Authentication\UI\API\Controllers;
 
 use App\Containers\Authentication\Actions\ApiLoginAction;
 use App\Containers\Authentication\Actions\ApiLogoutAction;
+use App\Containers\Authentication\Actions\MakeJWTAction;
 use App\Containers\Authentication\Actions\ProxyApiLoginAction;
 use App\Containers\Authentication\Actions\ApiRefreshAction;
 use App\Containers\Authentication\UI\API\Requests\LoginRequest;
 use App\Containers\Authentication\UI\API\Requests\LogoutRequest;
+use App\Containers\Authentication\UI\API\Requests\MakeJWTRequest;
 use App\Containers\Authentication\UI\API\Requests\RefreshRequest;
 use App\Ship\Parents\Controllers\ApiController;
 use Illuminate\Support\Facades\Cookie;
@@ -64,5 +66,16 @@ class Controller extends ApiController
         ]);
 
         return $this->json($result['response-content'])->withCookie($result['refresh-cookie']);
+    }
+
+    /**
+     * @param MakeJWTRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function makeJWTToken(MakeJWTRequest $request)
+    {
+        $token = $this->call(MakeJWTAction::class, [$request]);
+
+        return $this->json($token);
     }
 }

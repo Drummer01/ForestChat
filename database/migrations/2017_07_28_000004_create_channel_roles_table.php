@@ -23,7 +23,7 @@ class CreateChannelRolesTable extends Migration
             $table->string('custom')->default(true);
             $table->timestamps();
 
-            $table->primary(['id', 'name', 'channel_id']);
+            $table->unique(['name', 'channel_id']);
             $table->foreign('channel_id')->references('id')->on('channels')->onDelete('cascade');
         });
     }
