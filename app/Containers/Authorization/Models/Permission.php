@@ -3,18 +3,22 @@
 namespace App\Containers\Authorization\Models;
 
 use Apiato\Core\Traits\HashIdTrait;
-use App\Containers\ChannelAuthorization\Models\ChannelRole;
-use Spatie\Permission\Models\Permission as LaratrustPermission;
+use Apiato\Core\Traits\HasResourceKeyTrait;
+use Spatie\Permission\Models\Permission as SpatiePermission;
 
 /**
  * Class Permission
  *
  * @author  Mahmoud Zalt  <mahmoud@zalt.me>
  */
-class Permission extends LaratrustPermission
+class Permission extends SpatiePermission
 {
 
     use HashIdTrait;
+    use HasResourceKeyTrait;
+
+    protected $guard_name = 'web';
+
 
     /**
      * The attributes that are mass assignable.
@@ -23,15 +27,8 @@ class Permission extends LaratrustPermission
      */
     protected $fillable = [
         'name',
+        'guard_name',
         'display_name',
         'description',
     ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function channelRoles()
-    {
-        return $this->belongsToMany(ChannelRole::class, 'channel_role_has_permissions');
-    }
 }

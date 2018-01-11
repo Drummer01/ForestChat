@@ -5,6 +5,7 @@ namespace App\Containers\Authorization\UI\API\Tests\Functional;
 use App\Containers\Authorization\Models\Role;
 use App\Containers\Authorization\Tests\TestCase;
 use App\Containers\User\Models\User;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class RevokeUserFromRoleTest.
@@ -43,8 +44,8 @@ class RevokeUserFromRoleTest extends TestCase
 
         $this->assertEquals($data['user_id'], $responseContent->data->id);
 
-        $this->assertDatabaseMissing('user_has_roles', [
-            'user_id' => $randomUser->id,
+        $this->assertDatabaseMissing('model_has_roles', [
+            'model_id' => $randomUser->id,
             'role_id' => $roleA->id,
         ]);
     }
@@ -66,7 +67,7 @@ class RevokeUserFromRoleTest extends TestCase
 
 
         // assert response status is correct. Note: this will return 200 if `HASH_ID=false` in the .env
-        if(\Config::get('apiato.hash-id')){
+        if (Config::get('apiato.hash-id')){
             $response->assertStatus(400);
 
             $this->assertResponseContainKeyValue([
@@ -98,12 +99,15 @@ class RevokeUserFromRoleTest extends TestCase
         // assert response status is correct
         $response->assertStatus(200);
 
-        $this->assertDatabaseMissing('user_has_roles', [
-            'user_id' => $randomUser->id,
-            'role_id' => $roleB->id,
+        $this->assertDatabaseMissing('model_has_roles', [
+            'model_id' => $randomUser->id,
             'role_id' => $roleA->id,
         ]);
 
+        $this->assertDatabaseMissing('model_has_roles', [
+            'model_id' => $randomUser->id,
+            'role_id' => $roleB->id,
+        ]);
     }
 
 }

@@ -49,7 +49,7 @@ class LoginRequest extends Request
     public function rules()
     {
         return [
-            'name'     => 'required|min:4|max:40',
+            'email'    => 'required|email|max:40|exists:users,email',
             'password' => 'required|min:3|max:30',
         ];
     }
@@ -61,6 +61,8 @@ class LoginRequest extends Request
      */
     public function authorize()
     {
-        return true;
+        return $this->check([
+            'hasAccess',
+        ]);
     }
 }

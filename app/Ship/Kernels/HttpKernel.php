@@ -2,7 +2,9 @@
 
 namespace App\Ship\Kernels;
 
-use App\Ship\Middlewares\Http\ResponseHeadersMiddleware;
+use App\Ship\Middlewares\Http\ProcessETagHeadersMiddleware;
+use App\Ship\Middlewares\Http\ProfilerMiddleware;
+use App\Ship\Middlewares\Http\ValidateJsonContent;
 use Illuminate\Foundation\Http\Kernel as LaravelHttpKernel;
 
 /**
@@ -26,8 +28,9 @@ class HttpKernel extends LaravelHttpKernel
         // Laravel middleware's
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        \App\Ship\Middlewares\Http\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Ship\Middlewares\Http\TrimStrings::class,
+        \App\Ship\Middlewares\Http\TrustProxies::class,
 
         // CORS package middleware
         \Barryvdh\Cors\HandleCors::class,
@@ -50,8 +53,10 @@ class HttpKernel extends LaravelHttpKernel
         ],
 
         'api' => [
-            ResponseHeadersMiddleware::class,
+            ValidateJsonContent::class,
             'bindings',
+            ProcessETagHeadersMiddleware::class,
+            ProfilerMiddleware::class,
             // The throttle Middleware is registered by the RoutesLoaderTrait in the Core
         ],
     ];

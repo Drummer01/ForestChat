@@ -5,6 +5,7 @@ namespace App\Containers\Authorization\UI\API\Tests\Functional;
 use App\Containers\Authorization\Models\Role;
 use App\Containers\Authorization\Tests\TestCase;
 use App\Containers\User\Models\User;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class AssignUserToRoleTest.
@@ -60,7 +61,7 @@ class AssignUserToRoleTest extends TestCase
         $response = $this->makeCall($data);
 
         // assert response status is correct. Note: this will return 200 if `HASH_ID=false` in the .env
-        if(\Config::get('apiato.hash-id')){
+        if(Config::get('apiato.hash-id')){
             $response->assertStatus(400);
 
             $this->assertResponseContainKeyValue([
@@ -97,9 +98,10 @@ class AssignUserToRoleTest extends TestCase
 
         $this->assertTrue(count($responseContent->data->roles->data) > 1);
 
-        $this->assertEquals($data['roles_ids'][0], $responseContent->data->roles->data[0]->id);
+        $roleIds = array_pluck($responseContent->data->roles->data, 'id');
+        $this->assertContains($data['roles_ids'][0], $roleIds);
 
-        $this->assertEquals($data['roles_ids'][1], $responseContent->data->roles->data[1]->id);
+        $this->assertContains($data['roles_ids'][1], $roleIds);
     }
 
 }

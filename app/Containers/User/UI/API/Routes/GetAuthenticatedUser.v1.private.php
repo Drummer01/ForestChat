@@ -2,19 +2,21 @@
 
 /**
  * @apiGroup           Users
- * @apiName            GetAuthenticatedUser
- * @api                {get} /v1/userinfo Get Authenticated User without specifying it's ID
- * @apiDescription     Get the current authenticated user object.
+ * @apiName            getAuthenticatedUser
+ *
+ * @api                {GET} /v1/user/profile Find Logged in User data (Profile Information)
+ * @apiDescription     Find the user details of the logged in user from its Token. (without specifying his ID)
  *
  * @apiVersion         1.0.0
- * @apiPermission      Authenticated User
+ * @apiPermission      none
  *
  * @apiUse             UserSuccessSingleResponse
  */
 
-$router->get('userinfo', [
-    'uses'       => 'Controller@getAuthenticatedUserData',
+$router->get('user/profile', [
+    'as' => 'api_user_get_authenticated_user',
+    'uses'  => 'Controller@getAuthenticatedUser',
     'middleware' => [
-        'auth:api',
+      'auth:api',
     ],
 ]);

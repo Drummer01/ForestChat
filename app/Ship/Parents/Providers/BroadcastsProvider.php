@@ -4,6 +4,7 @@ namespace App\Ship\Parents\Providers;
 
 use Apiato\Core\Abstracts\Providers\BroadcastsProvider as AbstractBroadcastsProvider;
 use Illuminate\Support\Facades\Broadcast;
+use function app_path;
 
 /**
  * Class BroadcastsProvider
@@ -24,7 +25,7 @@ class BroadcastsProvider extends AbstractBroadcastsProvider
     {
         Broadcast::routes();
 
-        // require base_path('routes/channels.php');
+        require app_path('Ship/Broadcasts/Routes.php');
     }
 
 }

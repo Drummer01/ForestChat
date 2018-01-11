@@ -2,10 +2,10 @@
 
 namespace App\Containers\Authorization\Actions;
 
-use App\Containers\Authorization\Tasks\DetachPermissionsFromRoleTask;
-use App\Containers\Authorization\Tasks\GetRoleTask;
+use Apiato\Core\Foundation\Facades\Apiato;
+use App\Containers\Authorization\Models\Role;
 use App\Ship\Parents\Actions\Action;
-use App\Ship\Parents\Requests\Request;
+use App\Ship\Transporters\DataTransporter;
 
 /**
  * Class DetachPermissionsFromRoleAction.
@@ -16,14 +16,16 @@ class DetachPermissionsFromRoleAction extends Action
 {
 
     /**
-     * @param \App\Ship\Parents\Requests\Request $request
+     * @param \App\Ship\Transporters\DataTransporter $data
      *
-     * @return  mixed
+     * @return  \App\Containers\Authorization\Models\Role
      */
-    public function run(Request $request)
+    public function run(DataTransporter $data): Role
     {
-        $role = $this->call(GetRoleTask::class, [$request->role_id]);
+        $role = Apiato::call('Authorization@FindRoleTask', [$data->role_id]);
 
-        return $this->call(DetachPermissionsFromRoleTask::class, [$role, $request->permissions_ids]);
+        $role = Apiato::call('Authorization@DetachPermissionsFromRoleTask', [$role, $data->permissions_ids]);
+
+        return $role;
     }
 }

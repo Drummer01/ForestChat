@@ -3,8 +3,10 @@
 namespace App\Containers\Authorization\Tasks;
 
 use App\Containers\Authorization\Data\Repositories\PermissionRepository;
+use App\Containers\Authorization\Models\Permission;
+use App\Ship\Exceptions\CreateResourceFailedException;
 use App\Ship\Parents\Tasks\Task;
-use Illuminate\Support\Facades\App;
+use Exception;
 
 /**
  * Class CreatePermissionTask
@@ -15,19 +17,43 @@ class CreatePermissionTask extends Task
 {
 
     /**
-     * @param      $name
-     * @param null $description
-     * @param null $displayName
-     *
-     * @return  mixed
+     * @var  \App\Containers\Authorization\Data\Repositories\PermissionRepository
      */
-    public function run($name, $description = null, $displayName = null)
+    private $repository;
+
+    /**
+     * CreatePermissionTask constructor.
+     *
+     * @param \App\Containers\Authorization\Data\Repositories\PermissionRepository $repository
+     */
+    public function __construct(PermissionRepository $repository)
     {
-        return App::make(PermissionRepository::class)->create([
-            'name'         => $name,
-            'description'  => $description,
-            'display_name' => $displayName,
-        ]);
+        $this->repository = $repository;
     }
 
+    /**
+     * @param string      $name
+     * @param string|null $description
+     * @param string|null $displayName
+     *
+     * @return Permission
+     * @throws CreateResourceFailedException
+     */
+    public function run(string $name, string $description = null, string $displayName = null): Permission
+    {
+        app()['cache']->forget('spatie.permission.cache');
+
+        try {
+            $permission = $this->repository->create([
+                'name'         => $name,
+                'description'  => $description,
+                'display_name' => $displayName,
+                'guard_name'   => 'web',
+            ]);
+        } catch (Exception $exception) {
+            throw new CreateResourceFailedException();
+        }
+
+        return $permission;
+    }
 }

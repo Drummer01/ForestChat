@@ -1,3 +1,4 @@
+
 /node_modules
 /public/storage
 /public/hot
@@ -11,5 +12,6 @@ storage/logs/laravel.log
 /public/api/
 /public/uploads/
 /laradock*/
-composer.lock
 /.idea
+_ide_helper*.php
+.phpstorm.meta.php

@@ -2,11 +2,10 @@
 
 namespace App\Containers\Authorization\Actions;
 
-use App\Containers\Authorization\Tasks\GetRoleTask;
+use Apiato\Core\Foundation\Facades\Apiato;
 use App\Containers\User\Models\User;
-use App\Containers\User\Tasks\FindUserByIdTask;
 use App\Ship\Parents\Actions\Action;
-use App\Ship\Parents\Requests\Request;
+use App\Ship\Transporters\DataTransporter;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -18,24 +17,24 @@ class RevokeUserFromRoleAction extends Action
 {
 
     /**
-     * @param \App\Ship\Parents\Requests\Request $request
+     * @param \App\Ship\Transporters\DataTransporter $data
      *
-     * @return  mixed
+     * @return  \App\Containers\User\Models\User
      */
-    public function run(Request $request)
+    public function run(DataTransporter $data): User
     {
-        if (!$request->user_id instanceof User) {
-            $user = $this->call(FindUserByIdTask::class, [$request->user_id]);
+        // if user ID is passed then convert it to instance of User (could be user Id Or Model)
+        if (!$data->user_id instanceof User) {
+            $user = Apiato::call('User@FindUserByIdTask', [$data->user_id]);
         }
 
-        if (!is_array($rolesIds = $request->roles_ids)) {
-            $rolesIds = [$rolesIds];
-        }
+        // convert to array in case single ID was passed (could be Single Or Multiple Role Ids)
+        $rolesIds = (array)$data->roles_ids;
 
         $roles = new Collection();
 
         foreach ($rolesIds as $roleId) {
-            $role = $this->call(GetRoleTask::class, [$roleId]);
+            $role = Apiato::call('Authorization@FindRoleTask', [$roleId]);
             $roles->add($role);
         }
 
@@ -45,4 +44,5 @@ class RevokeUserFromRoleAction extends Action
 
         return $user;
     }
+
 }

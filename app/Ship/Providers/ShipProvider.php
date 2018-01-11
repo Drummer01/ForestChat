@@ -3,6 +3,8 @@
 namespace App\Ship\Providers;
 
 use App\Ship\Parents\Providers\MainProvider;
+use Barryvdh\Debugbar\Facade;
+use Barryvdh\Debugbar\ServiceProvider;
 
 /**
  * Class ShipProvider
@@ -18,6 +20,7 @@ class ShipProvider extends MainProvider
      * @var array
      */
     public $serviceProviders = [
+        ServiceProvider::class,
         // ...
     ];
 
@@ -27,6 +30,7 @@ class ShipProvider extends MainProvider
      * @var  array
      */
     protected $aliases = [
+        'Debugbar' => Facade::class,
         // ...
     ];
 
@@ -49,9 +53,13 @@ class ShipProvider extends MainProvider
      */
     public function register()
     {
-        // ...
+        /**
+         * Load the ide-helper service provider only in non production environments.
+         */
+        if ($this->app->environment() !== 'production')
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+
         parent::register();
-        // ...
     }
 
 }

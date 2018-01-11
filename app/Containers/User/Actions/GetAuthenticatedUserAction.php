@@ -2,29 +2,30 @@
 
 namespace App\Containers\User\Actions;
 
-use App\Containers\Authentication\Tasks\GetAuthenticatedUserTask;
-use App\Containers\User\Exceptions\UserNotFoundException;
+use Apiato\Core\Foundation\Facades\Apiato;
+use App\Containers\User\Models\User;
+use App\Ship\Exceptions\NotFoundException;
 use App\Ship\Parents\Actions\Action;
 
 /**
- * Class GetAuthenticatedUserAction.
+ * Class GetAuthenticatedUserAction
+ *
+ * @author  Mahmoud Zalt  <mahmoud@zalt.me>
  */
 class GetAuthenticatedUserAction extends Action
 {
 
     /**
-     * @return mixed
-     * @throws \App\Containers\User\Exceptions\UserNotFoundException
+     * @return  \App\Containers\User\Models\User
      */
-    public function run()
+    public function run(): User
     {
-        $user = $this->call(GetAuthenticatedUserTask::class);
+        $user = Apiato::call('Authentication@GetAuthenticatedUserTask');
 
         if (!$user) {
-            throw new UserNotFoundException();
+            throw new NotFoundException();
         }
 
         return $user;
     }
-
 }

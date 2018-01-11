@@ -37,8 +37,8 @@ class UpdateUserTest extends TestCase
         // assert returned user is the updated one
         $this->assertResponseContainKeyValue([
             'object' => 'User',
-            'email' => $user->email,
-            'name'  => $data['name'],
+            'email'  => $user->email,
+            'name'   => $data['name'],
         ]);
 
         // assert data was updated in the database
@@ -57,10 +57,10 @@ class UpdateUserTest extends TestCase
         $response = $this->injectId($fakeUserId)->makeCall($data);
 
         // assert response status is correct
-        $response->assertStatus(400);
+        $response->assertStatus(422);
 
         $this->assertResponseContainKeyValue([
-            'errors' => 'Oops something went wrong.'
+            'status' => 'error'
         ]);
     }
 
@@ -70,10 +70,10 @@ class UpdateUserTest extends TestCase
         $response = $this->makeCall();
 
         // assert response status is correct
-        $response->assertStatus(417);
+        $response->assertStatus(422);
 
         $this->assertResponseContainKeyValue([
-            'message' => 'Inputs are empty.'
+            'message' => 'The given data was invalid.'
         ]);
     }
 
@@ -93,7 +93,7 @@ class UpdateUserTest extends TestCase
         $this->assertValidationErrorContain([
             // messages should be updated after modifying the validation rules, to pass this test
             'password' => 'The password must be at least 6 characters.',
-            'name' => 'The name must be at least 2 characters.',
+            'name'     => 'The name must be at least 2 characters.',
         ]);
 
     }

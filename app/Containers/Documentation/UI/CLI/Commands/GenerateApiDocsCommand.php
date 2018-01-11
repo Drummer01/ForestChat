@@ -2,8 +2,9 @@
 
 namespace App\Containers\Documentation\UI\CLI\Commands;
 
-use App\Containers\Documentation\Actions\GenerateDocumentationAction;
+use Apiato\Core\Foundation\Facades\Apiato;
 use App\Ship\Parents\Commands\ConsoleCommand;
+use App\Ship\Transporters\DataTransporter;
 
 /**
  * Class GenerateApiDocsCommand
@@ -37,12 +38,12 @@ class GenerateApiDocsCommand extends ConsoleCommand
         parent::__construct();
     }
 
-    /**
-     * @param \App\Containers\Documentation\Actions\GenerateDocumentationAction $action
-     */
-    public function handle(GenerateDocumentationAction $action)
+    public function handle()
     {
-        $action->run($this);
+        $transporter = new DataTransporter();
+        $transporter->setInstance("command_instance", $this);
+
+        Apiato::call('Documentation@GenerateDocumentationAction', [$transporter]);
     }
 
 }

@@ -2,10 +2,8 @@
 
 namespace App\Containers\Authorization\Data\Seeders;
 
-use App\Containers\Authorization\Tasks\CreateRoleTask;
-use App\Containers\Authorization\Tasks\ListAllPermissionsTask;
+use Apiato\Core\Foundation\Facades\Apiato;
 use App\Ship\Parents\Seeders\Seeder;
-use Illuminate\Support\Facades\App;
 
 /**
  * Class AuthorizationRolesSeeder_2
@@ -22,12 +20,10 @@ class AuthorizationRolesSeeder_2 extends Seeder
      */
     public function run()
     {
-        // Default Role ----------------------------------------------------------------
+        // Default Roles ----------------------------------------------------------------
+        Apiato::call('Authorization@CreateRoleTask', ['admin', 'Administrator', 'Administrator Role', 999]);
 
-        // give the super admin all the available permissions, while seeding
-        App::make(CreateRoleTask::class)->run('admin', 'Administrator')->givePermissionTo(
-            App::make(ListAllPermissionsTask::class)->run()->pluck('name')->toArray()
-        );
+        // ...
 
     }
 }

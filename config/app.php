@@ -25,7 +25,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => env('APP_ENV', 'local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -164,11 +164,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
-         * Package Service Providers...
-         */
-        Laravel\Tinker\TinkerServiceProvider::class,
-
-        /*
          * Application Service Providers...
          *
          * The Ship Provider (The only exposed Service Provider by the App).
@@ -176,11 +171,6 @@ return [
          * NOTE: all packages service providers must be registered inside their container's main service providers.
          */
         Apiato\Core\Providers\ApiatoProvider::class,
-
-        /**
-         * Custom service providers
-         */
-        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class
     ],
 
     /*
@@ -230,9 +220,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         // NOTE: all packages aliases must be registered inside their containers service providers
-
-        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
-        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
     ],
 
 ];

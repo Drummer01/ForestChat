@@ -39,7 +39,7 @@ return [
         | API Prefix
         |--------------------------------------------------------------------------
         */
-        'prefix'                  => 'api/',
+        'prefix'                  => '/',
 
         /*
         |--------------------------------------------------------------------------
@@ -102,6 +102,67 @@ return [
             'expires'  => env('API_RATE_LIMIT_EXPIRES', '1'),
         ]
 
+    ],
+
+    'requests' => [
+        /*
+        |--------------------------------------------------------------------------
+        | Allow Roles to access all Routes
+        |--------------------------------------------------------------------------
+        |
+        | Define a list of roles that do not need to go through the "hasAccess"
+        | check in Requests. These roles automatically pass this check. This is
+        | useful, if you want to make all routes accessible for admin users.
+        |
+        | Usage: ['admin', 'editor']
+        | Default: []
+        |
+        */
+        'allow-roles-to-access-all-routes' => [],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Force Request Header to Contain header
+        |--------------------------------------------------------------------------
+        |
+        | By default, users can send request without defining the accept header and
+        | setting it to [ accept = application/json ].
+        | To force the users to define that header, set this to true.
+        | When set to true, a PHP exception will be thrown preventing users from access
+        | When set to false, the header will contain a warning message.
+        |
+        */
+        'force-accept-header' => false,
+
+        /*
+        |--------------------------------------------------------------------------
+        | Force Valid Request Include Parameters
+        |--------------------------------------------------------------------------
+        |
+        | By default, users can request to include additional resources into the
+        | response by using the ?include=... query parameter. The requested top-level
+        | resource also responds with all available includes. However, the user may
+        | still request an invalid (i.e., not available) include parameter. This flag
+        | determines, how to proceed in such a case:
+        | When set to true, a PHP Exception will be thrown (default)
+        | When set to false, this invalid include will be skipped
+        |
+        */
+        'force-valid-includes' => true,
+
+        /*
+        |--------------------------------------------------------------------------
+        | Use ETags
+        |--------------------------------------------------------------------------
+        |
+        | This option appends an "ETag" HTTP Header to the Response. This ETag is a
+        | calculated hash of the content to be delivered.
+        | Clients can add an "If-None-Match" HTTP Header to the Request and submit
+        | an (old) ETag. These ETags are validated. If they match (are the same),
+        | an empty BODY with HTTP STATUS 304 (not modified) is returned!
+        |
+        */
+        'use-etag' => true,
     ],
 
 ];

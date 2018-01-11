@@ -3,8 +3,10 @@
 namespace App\Containers\Settings\Tasks;
 
 use App\Containers\Settings\Data\Repositories\SettingRepository;
-use App\Containers\Settings\Exceptions\SettingNotFoundException;
+use App\Ship\Exceptions\NotFoundException;
+use App\Ship\Exceptions\UpdateResourceFailedException;
 use App\Ship\Parents\Tasks\Task;
+use Exception;
 
 /**
  * Class UpdateSettingsByKeyTask
@@ -13,15 +15,9 @@ use App\Ship\Parents\Tasks\Task;
  */
 class UpdateSettingsByKeyTask extends Task
 {
-    /**
-     * @var SettingRepository
-     */
+
     private $repository;
 
-    /**
-     * UpdateSettingsByKeyTask constructor.
-     * @param SettingRepository $repository
-     */
     public function __construct(SettingRepository $repository)
     {
         $this->repository = $repository;
@@ -32,19 +28,25 @@ class UpdateSettingsByKeyTask extends Task
      * @param $value
      *
      * @return mixed
-     * @throws SettingNotFoundException
+     * @throws NotFoundException
+     * @throws UpdateResourceFailedException
      */
     public function run($key, $value)
     {
         $setting = $this->repository->findWhere(['key' => $key])->first();
 
-        if(! $setting) {
-            throw new SettingNotFoundException();
+        if (!$setting) {
+            throw new NotFoundException();
         }
 
-        return $this->repository->update([
-            'value' => $value
-        ], $setting->id);
+        try {
+            return $this->repository->update([
+                'value' => $value
+            ], $setting->id);
+        }
+        catch (Exception $exception) {
+            throw new UpdateResourceFailedException();
+        }
     }
 
 }

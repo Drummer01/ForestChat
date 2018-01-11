@@ -9,9 +9,8 @@ use App\Ship\Parents\Requests\Request;
  */
 class GetAuthenticatedUserRequest extends Request
 {
-
     /**
-     * Define which Roles and/or Permissions has access to this request..
+     * Define which Roles and/or Permissions has access to this request.
      *
      * @var  array
      */
@@ -26,17 +25,17 @@ class GetAuthenticatedUserRequest extends Request
      * @var  array
      */
     protected $decode = [
-
+        // 'id',
     ];
 
     /**
-     * Defining the URL parameters (`/stores/999/items`) allows applying
+     * Defining the URL parameters (e.g, `/user/{id}`) allows applying
      * validation rules on them and allows accessing them like request data.
      *
      * @var  array
      */
     protected $urlParameters = [
-
+        //'id',
     ];
 
     /**
@@ -45,7 +44,8 @@ class GetAuthenticatedUserRequest extends Request
     public function rules()
     {
         return [
-
+            // put your rules here
+            // 'name' => 'required|max:255'
         ];
     }
 
@@ -58,5 +58,4 @@ class GetAuthenticatedUserRequest extends Request
             'hasAccess',
         ]);
     }
-
 }

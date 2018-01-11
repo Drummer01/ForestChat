@@ -18,6 +18,7 @@
  */
 
 $router->post('roles/sync', [
+    'as' => 'api_authorization_sync_user_roles',
     'uses'       => 'Controller@syncUserRoles',
     'middleware' => [
         'auth:api',

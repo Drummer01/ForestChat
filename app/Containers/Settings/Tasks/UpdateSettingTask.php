@@ -4,34 +4,28 @@ namespace App\Containers\Settings\Tasks;
 
 use App\Containers\Settings\Data\Repositories\SettingRepository;
 use App\Containers\Settings\Models\Setting;
+use App\Ship\Exceptions\UpdateResourceFailedException;
 use App\Ship\Parents\Tasks\Task;
+use Exception;
+use Illuminate\Support\Facades\App;
 
 class UpdateSettingTask extends Task
 {
 
     /**
-     * @var SettingRepository
-     */
-    private $repository;
-
-    /**
-     * UpdateSettingTask constructor.
-     *
-     * @param SettingRepository $repository
-     */
-    public function __construct(SettingRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
-    /**
-     * @param Setting $setting
+     * @param $id
      * @param $data
      *
-     * @return mixed
+     * @return Setting
+     * @throws UpdateResourceFailedException
      */
-    public function run(Setting $setting, $data)
+    public function run($id, $data): Setting
     {
-        return $this->repository->update($data, $setting->id);
+        try {
+            return App::make(SettingRepository::class)->update($data, $id);
+        }
+        catch (Exception $exception) {
+            throw new UpdateResourceFailedException();
+        }
     }
 }

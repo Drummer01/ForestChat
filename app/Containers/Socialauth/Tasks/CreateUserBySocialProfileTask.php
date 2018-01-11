@@ -2,10 +2,11 @@
 
 namespace App\Containers\SocialAuth\Tasks;
 
-use App\Containers\User\Contracts\UserRepositoryInterface;
-use App\Containers\User\Exceptions\AccountFailedException;
+use App\Containers\Socialauth\Exceptions\AccountFailedException;
+use App\Containers\User\Data\Repositories\UserRepository;
 use App\Ship\Parents\Tasks\Task;
 use Exception;
+use Illuminate\Support\Facades\App;
 
 /**
  * Class CreateUserBySocialProfileTask.
@@ -14,22 +15,6 @@ use Exception;
  */
 class CreateUserBySocialProfileTask extends Task
 {
-
-    /**
-     * @var \App\Containers\User\Contracts\UserRepositoryInterface
-     */
-    private $userRepository;
-
-    /**
-     * CreateUserBySocialProfileTask constructor.
-     *
-     * @param \App\Containers\User\Contracts\UserRepositoryInterface $userRepository
-     */
-    public function __construct(UserRepositoryInterface $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
-
 
     /**
      * @param      $provider
@@ -44,7 +29,8 @@ class CreateUserBySocialProfileTask extends Task
      * @param null $refreshToken
      * @param null $avatar_original
      *
-     * @return  mixed
+     * @return mixed
+     * @throws AccountFailedException
      */
     public function run(
         $provider,
@@ -76,7 +62,7 @@ class CreateUserBySocialProfileTask extends Task
 
         try {
             // create new user
-            $user = $this->userRepository->create($data);
+            $user = App::make(UserRepository::class)->create($data);
         } catch (Exception $e) {
             throw (new AccountFailedException())->debug($e);
         }

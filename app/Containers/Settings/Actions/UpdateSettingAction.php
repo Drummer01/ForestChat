@@ -2,23 +2,31 @@
 
 namespace App\Containers\Settings\Actions;
 
-use App\Containers\Settings\Tasks\GetSettingByIdTask;
-use App\Containers\Settings\Tasks\UpdateSettingTask;
+use Apiato\Core\Foundation\Facades\Apiato;
 use App\Ship\Parents\Actions\Action;
-use App\Ship\Parents\Requests\Request;
+use App\Ship\Transporters\DataTransporter;
 
+/**
+ * Class UpdateSettingAction
+ *
+ * @author  Mahmoud Zalt  <mahmoud@zalt.me>
+ */
 class UpdateSettingAction extends Action
 {
-    public function run(Request $request)
+
+    /**
+     * @param \App\Ship\Transporters\DataTransporter $data
+     *
+     * @return  mixed
+     */
+    public function run(DataTransporter $data)
     {
-        $data = $request->sanitizeInput([
+        $sanitizedData = $data->sanitizeInput([
             'key',
             'value'
         ]);
 
-        $setting = $this->call(GetSettingByIdTask::class, [$request->id]);
-
-        $setting = $this->call(UpdateSettingTask::class, [$setting, $data]);
+        $setting = Apiato::call('Settings@UpdateSettingTask', [$data->id, $sanitizedData]);
 
         return $setting;
     }
